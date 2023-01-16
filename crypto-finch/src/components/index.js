@@ -1,0 +1,13 @@
+export { default as Homepage } from './Homepage';
+export { default as GlobalPage } from './Global';
+export { default as Navbar } from './Navbar';
+export { default as News } from './News';
+export { default as Cryptocurrencies } from './Cryptocurrencies';
+export { default as Chart } from './Chart';
+export { default as CryptoDetails } from './CryptoDetails';
+export { default as Nft } from './Nft';
+export { default as Settings } from './Settings';
+export { default as Credits } from './Credits';
+export { default as Chat } from './Chat';
+export { default as Notifications } from './Notifications';
+export { default as SignUp } from './SignUp';
