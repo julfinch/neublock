@@ -1,20 +1,20 @@
 import { useState } from "react";
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import {
-    Box,
     Button,
-    TextField,
-    useMediaQuery,
-    Typography,
-    useTheme,
-} from "@mui/material";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+    Col,
+    Form,
+    InputNumber,
+    Row,
+    Input,
+    Upload,
+} from 'antd';
 import { Formik } from "formik";
 import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
+// import useNavigate from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setLogin } from "state";
+import { setLogin } from "../app/state";
 import Dropzone from "react-dropzone";
-import FlexBetween from "components/FlexBetween";
 
 const registerSchema = yup.object().shape({
     firstName: yup.string().required("required"),
@@ -36,8 +36,6 @@ const initialValuesRegister = {
     lastName: "",
     email: "",
     password: "",
-    location: "",
-    occupation: "",
     picture: "",
 };
 
@@ -46,14 +44,36 @@ const initialValuesLogin = {
     password: "",
 };
 
-const Form = () => {
+const layout = {
+  labelCol: {
+    span: 8,
+  },
+  wrapperCol: {
+    span: 16,
+  },
+};
+
+const validateMessages = {
+  required: '${label} is required!',
+  types: {
+    email: '${label} is not a valid email!',
+    number: '${label} is not a valid number!',
+  },
+  number: {
+    range: '${label} must be between ${min} and ${max}',
+  },
+};
+
+const LoginForm = () => {
     const [pageType, setPageType] = useState("login");
-    const { palette } = useTheme();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const isNonMobile = useMediaQuery("(min-width:600px)");
+    // const navigate = useNavigate();
     const isLogin = pageType === "login";
     const isRegister = pageType === "register";
+
+    const onFinish = (values) => {
+    console.log(values);
+  };
 
     const register = async (values, onSubmitProps) => {
         // this allows us to send form info with image
@@ -93,7 +113,7 @@ const Form = () => {
             token: loggedIn.token,
             })
         );
-        navigate("/home");
+        // navigate("/home");
         }
     };
 
@@ -103,6 +123,7 @@ const Form = () => {
     };
 
     return (
+        <Form {...layout} name="nest-messages">
         <Formik
         onSubmit={handleFormSubmit}
         initialValues={isLogin ? initialValuesLogin : initialValuesRegister}
@@ -119,17 +140,17 @@ const Form = () => {
             resetForm,
         }) => (
             <form onSubmit={handleSubmit}>
-            <Box
+            {/* <Box
                 display="grid"
                 gap="30px"
                 gridTemplateColumns="repeat(4, minmax(0, 1fr))"
                 sx={{
                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
                 }}
-            >
+            > */}
                 {isRegister && (
                 <>
-                    <TextField
+                    {/* <TextField
                     label="First Name"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -140,8 +161,19 @@ const Form = () => {
                     }
                     helperText={touched.firstName && errors.firstName}
                     sx={{ gridColumn: "span 2" }}
-                    />
-                    <TextField
+                    /> */}
+                    <Form.Item
+                        name={['user', 'firstName']}
+                        label="First Name"
+                        rules={[
+                        {
+                            required: true,
+                        },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    {/* <TextField
                     label="Last Name"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -150,30 +182,19 @@ const Form = () => {
                     error={Boolean(touched.lastName) && Boolean(errors.lastName)}
                     helperText={touched.lastName && errors.lastName}
                     sx={{ gridColumn: "span 2" }}
-                    />
-                    <TextField
-                    label="Location"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.location}
-                    name="location"
-                    error={Boolean(touched.location) && Boolean(errors.location)}
-                    helperText={touched.location && errors.location}
-                    sx={{ gridColumn: "span 4" }}
-                    />
-                    <TextField
-                    label="Occupation"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.occupation}
-                    name="occupation"
-                    error={
-                        Boolean(touched.occupation) && Boolean(errors.occupation)
-                    }
-                    helperText={touched.occupation && errors.occupation}
-                    sx={{ gridColumn: "span 4" }}
-                    />
-                    <Box
+                    /> */}
+                    <Form.Item
+                        name={['user', 'lastName']}
+                        label="Last Name"
+                        rules={[
+                        {
+                            required: true,
+                        },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    {/* <Box
                     gridColumn="span 4"
                     border={`1px solid ${palette.neutral.medium}`}
                     borderRadius="5px"
@@ -205,11 +226,22 @@ const Form = () => {
                         </Box>
                         )}
                     </Dropzone>
-                    </Box>
+                    </Box> */}
+                    <Form.Item
+                        name="upload"
+                        label="Upload"
+                        valuePropName="fileList"
+                        getValueFromEvent={normFile}
+                        extra="longgggggggggggggggggggggggggggggggggg"
+                    >
+                        <Upload name="logo" action="/upload.do" listType="picture">
+                        <Button icon={<UploadOutlined />}>Click to upload</Button>
+                        </Upload>
+                    </Form.Item>
                 </>
                 )}
 
-                <TextField
+                {/* <TextField
                 label="Email"
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -218,8 +250,24 @@ const Form = () => {
                 error={Boolean(touched.email) && Boolean(errors.email)}
                 helperText={touched.email && errors.email}
                 sx={{ gridColumn: "span 4" }}
-                />
-                <TextField
+                /> */}
+                <Form.Item
+                    name="email"
+                    label="Email"
+                    rules={[
+                    {
+                        type: 'email',
+                        message: 'The input is not valid E-mail!',
+                    },
+                    {
+                        required: true,
+                        message: 'Please input your E-mail!',
+                    },
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
+                {/* <TextField
                 label="Password"
                 type="password"
                 onBlur={handleBlur}
@@ -229,12 +277,25 @@ const Form = () => {
                 error={Boolean(touched.password) && Boolean(errors.password)}
                 helperText={touched.password && errors.password}
                 sx={{ gridColumn: "span 4" }}
-                />
-            </Box>
+                /> */}
+                <Form.Item
+                    name="password"
+                    label="Password"
+                    rules={[
+                    {
+                        required: true,
+                        message: 'Please input your password!',
+                    },
+                    ]}
+                    hasFeedback
+                >
+                    <Input.Password />
+                </Form.Item>
+            {/* </Box> */}
 
             {/* BUTTONS */}
-            <Box>
-                <Button
+            {/* <Box> */}
+                {/* <Button
                 fullWidth
                 type="submit"
                 sx={{
@@ -264,12 +325,22 @@ const Form = () => {
                 {isLogin
                     ? "Don't have an account? Sign Up here."
                     : "Already have an account? Login here."}
-                </Typography>
-            </Box>
+                </Typography> */}
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" className="login-form-button">
+                    {isLogin ? "LOGIN" : "REGISTER"}
+                    </Button>
+                    Or <a href="">
+                    {isLogin
+                    ? "Don't have an account? Sign Up here."
+                    : "Already have an account? Login here."}</a>
+                </Form.Item>
+            {/* </Box> */}
             </form>
         )}
         </Formik>
+        </Form>
     );
 };
 
-export default Form;
+export default LoginForm;

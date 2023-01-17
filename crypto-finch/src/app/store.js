@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers } from 'redux';
 import {
     persistStore,
     persistReducer,
@@ -20,19 +21,40 @@ import { webitApi } from '../services/webitApi';
 const persistConfig = { key: "root", storage, version: 1 };
 const persistedReducer = persistReducer(persistConfig, authReducer);
 
-export default configureStore({
-    reducer: {
+const rootReducer = combineReducers({
+    crypto: {
         [cryptoApi.reducerPath]: cryptoApi.reducer,
         [cryptoNewsApi.reducerPath]: cryptoNewsApi.reducer,
         [nftApi.reducerPath]: nftApi.reducer,
         [webitApi.reducerPath]: webitApi.reducer,
-    }, 
-    persistedReducer,
+    },
+    login: persistedReducer,
+})
+
+const store = configureStore({
+    reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
         serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         },
     }),
-        
 });
+
+export default store;
+// export default configureStore({
+//     reducer: {
+//         [cryptoApi.reducerPath]: cryptoApi.reducer,
+//         [cryptoNewsApi.reducerPath]: cryptoNewsApi.reducer,
+//         [nftApi.reducerPath]: nftApi.reducer,
+//         [webitApi.reducerPath]: webitApi.reducer,
+//     }, 
+    // persistedReducer,
+    // middleware: (getDefaultMiddleware) =>
+    // getDefaultMiddleware({
+    //     serializableCheck: {
+    //     ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    //     },
+    // }),
+        
+// });

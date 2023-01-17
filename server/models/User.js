@@ -29,11 +29,6 @@ const UserSchema = new mongoose.Schema(
         type: String,
         default: "",
     },
-    crypto: {
-        type: Array,
-        default: [],
-    },
-    phone: Number,
 },
 { timestamps: true }
 );

@@ -2,7 +2,7 @@ import React from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Layout, Typography, Space } from "antd";
-import { Chart, GlobalPage, Nft, Homepage, News, Cryptocurrencies, CryptoDetails, Navbar, SignUp } from './components';
+import { Chart, GlobalPage, Nft, Homepage, News, Cryptocurrencies, CryptoDetails, Navbar, SignUp, LoginPage } from './components';
 import { AuthContextProvider } from './context/AuthContext';
 
 
@@ -10,6 +10,9 @@ export default function App() {
   return (
     <AuthContextProvider>
     <div className="app-container">
+      <Route exact path="/">
+        <LoginPage />
+      </Route>
     <div className="app">
       <div className="navbar">
         <Navbar/>

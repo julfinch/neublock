@@ -11,3 +11,5 @@ export { default as Credits } from './Credits';
 export { default as Chat } from './Chat';
 export { default as Notifications } from './Notifications';
 export { default as SignUp } from './SignUp';
+export { default as LoginPage } from './LoginPage';
+export { default as LoginForm } from './LoginForm';

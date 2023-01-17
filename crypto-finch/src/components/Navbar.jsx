@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Menu, Typography, Avatar, Card } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { HomeOutlined, InfoCircleOutlined, CloseOutlined, GlobalOutlined, LogoutOutlined, DeploymentUnitOutlined, MoneyCollectOutlined, BulbOutlined, FundOutlined, MenuOutlined } from '@ant-design/icons';
 
 import icon from '../images/logo.jpg';
@@ -9,6 +9,11 @@ import card from '../images/card1.png';
 const Navbar = () => {
   const [activeMenu, setActiveMenu] = useState(true);
   const [screenSize, setScreenSize] = useState(undefined);
+  const { pathname } = useLocation();
+
+  if (pathname === "/" || pathname === "/login") {
+    return <></>
+  }
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
