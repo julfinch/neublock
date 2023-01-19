@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { LockOutlined, UserOutlined, UploadOutlined } from '@ant-design/icons';
+import axios from "axios";
 import {
     Button,
     Col,
@@ -8,6 +9,7 @@ import {
     Row,
     Input,
     Upload,
+    Typography,
 } from 'antd';
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -16,14 +18,14 @@ import { useDispatch } from "react-redux";
 import { setLogin } from "../app/state";
 import Dropzone from "react-dropzone";
 
+const { Title } = Typography;
+
 const registerSchema = yup.object().shape({
     firstName: yup.string().required("required"),
     lastName: yup.string().required("required"),
     email: yup.string().email("invalid email").required("required"),
     password: yup.string().required("required"),
-    location: yup.string().required("required"),
-    occupation: yup.string().required("required"),
-    picture: yup.string().required("required"),
+    picture: yup.string().notRequired("optional"),
 });
 
 const loginSchema = yup.object().shape({
@@ -70,6 +72,7 @@ const LoginForm = () => {
     // const navigate = useNavigate();
     const isLogin = pageType === "login";
     const isRegister = pageType === "register";
+    const [file, setFile] = useState(null);
 
     const onFinish = (values) => {
     console.log(values);
@@ -78,11 +81,21 @@ const LoginForm = () => {
     const register = async (values, onSubmitProps) => {
         // this allows us to send form info with image
         const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "neublock");
+        try {
+        const uploadRes = await axios.post(
+            "https://api.cloudinary.com/v1_1/dwxdztigp/image/upload",
+            formData
+        );
+        const { url } = uploadRes.data;
+
         for (let value in values) {
         formData.append(value, values[value]);
         }
-        formData.append("picturePath", values.picture.name);
+        formData.append("picturePath", url);
 
+        console.log('Form Data',formData);
         const savedUserResponse = await fetch(
         "http://localhost:3001/auth/register",
         {
@@ -90,11 +103,15 @@ const LoginForm = () => {
             body: formData,
         }
         );
+        console.log('Saved User Res', savedUserResponse);
         const savedUser = await savedUserResponse.json();
         onSubmitProps.resetForm();
 
         if (savedUser) {
         setPageType("login");
+        }
+        } catch (err) {
+            console.log(err);
         }
     };
 
@@ -123,7 +140,6 @@ const LoginForm = () => {
     };
 
     return (
-        <Form {...layout} name="nest-messages">
         <Formik
         onSubmit={handleFormSubmit}
         initialValues={isLogin ? initialValuesLogin : initialValuesRegister}
@@ -162,9 +178,17 @@ const LoginForm = () => {
                     helperText={touched.firstName && errors.firstName}
                     sx={{ gridColumn: "span 2" }}
                     /> */}
-                    <Form.Item
+                    <input
+                    placeholder="First Name"
+                    name="firstName"
+                    onChange={handleChange}
+                    value={values.firstName}
+                    />
+                    {/* <Form.Item
                         name={['user', 'firstName']}
                         label="First Name"
+                        value={values.firstName}
+                        onChange={(value) => setFieldValue("firstName", value)}
                         rules={[
                         {
                             required: true,
@@ -172,7 +196,9 @@ const LoginForm = () => {
                         ]}
                     >
                         <Input />
-                    </Form.Item>
+                    </Form.Item> */}
+
+
                     {/* <TextField
                     label="Last Name"
                     onBlur={handleBlur}
@@ -183,9 +209,16 @@ const LoginForm = () => {
                     helperText={touched.lastName && errors.lastName}
                     sx={{ gridColumn: "span 2" }}
                     /> */}
-                    <Form.Item
+                    <input
+                    placeholder="Last Name"
+                    name="lastName"
+                    onChange={handleChange}
+                    value={values.lastName}
+                    />
+                    {/* <Form.Item
                         name={['user', 'lastName']}
                         label="Last Name"
+                        onChange={(value) => setFieldValue("lastName", value)}
                         rules={[
                         {
                             required: true,
@@ -193,13 +226,12 @@ const LoginForm = () => {
                         ]}
                     >
                         <Input />
-                    </Form.Item>
-                    {/* <Box
-                    gridColumn="span 4"
-                    border={`1px solid ${palette.neutral.medium}`}
-                    borderRadius="5px"
-                    p="1rem"
-                    >
+                    </Form.Item> */}
+                    
+
+
+                    {/* <Row>
+                    <Col span={12} offset={6}>
                     <Dropzone
                         acceptedFiles=".jpg,.jpeg,.png"
                         multiple={false}
@@ -208,36 +240,40 @@ const LoginForm = () => {
                         }
                     >
                         {({ getRootProps, getInputProps }) => (
-                        <Box
-                            {...getRootProps()}
-                            border={`2px dashed ${palette.primary.main}`}
-                            p="1rem"
-                            sx={{ "&:hover": { cursor: "pointer" } }}
-                        >
+                        <Row>
+                            <Col span={12} offset={6}>
                             <input {...getInputProps()} />
                             {!values.picture ? (
                             <p>Add Picture Here</p>
                             ) : (
-                            <FlexBetween>
-                                <Typography>{values.picture.name}</Typography>
-                                <EditOutlinedIcon />
-                            </FlexBetween>
+                            <Row>
+                                <Col span={12} offset={6}>
+                                <Title level={h5}>{values.picture.name}</Title>
+                                <UploadOutlined />
+                                </Col>
+                            </Row>
                             )}
-                        </Box>
+                            </Col>
+                        </Row>
                         )}
                     </Dropzone>
-                    </Box> */}
-                    <Form.Item
+                    </Col>
+                    </Row> */}
+
+                    <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+
+                    {/* <Form.Item
                         name="upload"
                         label="Upload"
                         valuePropName="fileList"
-                        getValueFromEvent={normFile}
-                        extra="longgggggggggggggggggggggggggggggggggg"
+                        onChange={(value) => setFieldValue("picture", value)}
+                        // getValueFromEvent={normFile}
+                        // extra="longgggggggggggggggggggggggggggggggggg"
                     >
                         <Upload name="logo" action="/upload.do" listType="picture">
                         <Button icon={<UploadOutlined />}>Click to upload</Button>
                         </Upload>
-                    </Form.Item>
+                    </Form.Item> */}
                 </>
                 )}
 
@@ -251,9 +287,16 @@ const LoginForm = () => {
                 helperText={touched.email && errors.email}
                 sx={{ gridColumn: "span 4" }}
                 /> */}
-                <Form.Item
+                <input
+                    placeholder="Email"
+                    name="email"
+                    onChange={handleChange}
+                    value={values.email}
+                    />
+                {/* <Form.Item
                     name="email"
                     label="Email"
+                    onChange={(value) => setFieldValue("email", value)}
                     rules={[
                     {
                         type: 'email',
@@ -266,7 +309,9 @@ const LoginForm = () => {
                     ]}
                 >
                     <Input />
-                </Form.Item>
+                </Form.Item> */}
+
+
                 {/* <TextField
                 label="Password"
                 type="password"
@@ -278,9 +323,16 @@ const LoginForm = () => {
                 helperText={touched.password && errors.password}
                 sx={{ gridColumn: "span 4" }}
                 /> */}
-                <Form.Item
+                <input
+                    placeholder="Password"
+                    name="password"
+                    onChange={handleChange}
+                    value={values.password}
+                    />
+                {/* <Form.Item
                     name="password"
                     label="Password"
+                    onChange={handleChange}
                     rules={[
                     {
                         required: true,
@@ -290,7 +342,9 @@ const LoginForm = () => {
                     hasFeedback
                 >
                     <Input.Password />
-                </Form.Item>
+                </Form.Item> */}
+
+
             {/* </Box> */}
 
             {/* BUTTONS */}
@@ -330,16 +384,18 @@ const LoginForm = () => {
                     <Button type="primary" htmlType="submit" className="login-form-button">
                     {isLogin ? "LOGIN" : "REGISTER"}
                     </Button>
-                    Or <a href="">
+                    Or <Title level={5} style={{ cursor: 'pointer'}} onClick={() => {
+                    setPageType(isLogin ? "register" : "login");
+                    resetForm();
+                }}>
                     {isLogin
                     ? "Don't have an account? Sign Up here."
-                    : "Already have an account? Login here."}</a>
+                    : "Already have an account? Login here."}</Title>
                 </Form.Item>
             {/* </Box> */}
             </form>
         )}
         </Formik>
-        </Form>
     );
 };
 

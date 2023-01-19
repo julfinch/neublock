@@ -1,16 +1,22 @@
 import React from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Layout, Typography, Space } from "antd";
+import { Layout } from "antd";
 import { Chart, GlobalPage, Nft, Homepage, News, Cryptocurrencies, CryptoDetails, Navbar, SignUp, LoginPage } from './components';
+import LandingPage from "./components/LandingPage";
 import { AuthContextProvider } from './context/AuthContext';
 
 
 export default function App() {
+  const isAuth = Boolean(useSelector((state) => state.token));
+
   return (
     <AuthContextProvider>
     <div className="app-container">
       <Route exact path="/">
+        <LandingPage />
+      </Route>
+      <Route exact path="/login">
         <LoginPage />
       </Route>
     <div className="app">

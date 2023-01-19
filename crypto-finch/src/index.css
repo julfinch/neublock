@@ -1135,3 +1135,184 @@ width: 70%;
   padding: 20px;
   align-items: center;
 }
+
+/* ---------------------- LANDING PAGE ------------------------ */
+
+/* HERO */
+.landing-hero-container{
+  background: url('./images/landing/heroBg-1.png') center right, url('./images/landing/heroBg-2.png') center top !important;
+  padding: 30px 80px;
+  overflow: hidden;
+  position: relative;
+}
+.landing-nav{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.landing-nav-logo{
+  display: flex;
+}
+.landing-nav-item{
+  display: flex;
+}
+.landing-nav-list {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  list-style: none;
+  color: white;
+}
+.landing-nav-listItem:nth-child(2){
+  margin: 0 40px;
+}
+.landing-nav-signin{
+  padding: 3px 20px;
+  background: none;
+  border: 1px #4AED52 solid;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;  
+}
+.landing-nav-signin:hover {
+  background: rgba(74, 237, 82, 0.3);
+}
+
+.landing-hero-grid:nth-child(1){
+  display: flex;
+  flex-shrink: 0;
+}
+.landing-hero-grid:nth-last{
+  display: flex;
+  flex-shrink: 0;
+  justify-content: flex-end;
+}
+.landing-hero-grid:nth-child(2){
+  display: flex;
+  flex-shrink: 2;
+}
+
+
+.landing-hero-connect{
+  padding: 3px 20px;
+  background: rgba(189, 36, 230, 1);
+  border: 1px #4AED52 solid;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 200px;
+  -webkit-box-shadow: 0 0 12px 1.5px #cf5959;
+  -moz-box-shadow: 0 0 12px 1.5px #cf5959;
+  box-shadow: 0 0 12px 1.5px #cf5959;
+}
+.landing-hero-connect:hover {
+  -webkit-box-shadow: 0 0 12px 4.5px #cf5959;
+  -moz-box-shadow: 0 0 12px 4.5px #cf5959;
+  box-shadow: 0 0 12px 4.5px #cf5959;
+}
+.landing-hero-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.landing-hero-ellipse1{
+  position: absolute;
+  width: 22rem;
+  height: 22rem;
+  border-radius: 50%;
+  background: rgba(189, 36, 230, 0.4);
+  filter: blur(72px);
+  bottom: -18%;
+  left: -14%;
+}
+.landing-hero-ellipse2{
+  position: absolute;
+  width: 22rem;
+  height: 22rem;
+  border-radius: 50%;
+  background: rgba(76, 233, 85, 0.4);
+  filter: blur(72px);
+  top: 5%;
+  right: -14%;
+}
+
+/* COMPANIES */
+.landing-companies-container{
+  background: url('./images/landing/companiesBg.png') center center !important;
+  padding: 0px 80px;
+  display: flex;
+  justify-content: center;
+}
+.landing-companies-logos{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+/* TRENDING */
+.landing-trending-container{
+  background: url('./images/landing/trendingBg.png') center center !important;
+  padding: 60px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.landing-trending-cards{
+  margin-top: -60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.landing-trending-button{
+  padding: 3px 20px;
+  background: rgba(189, 36, 230, 1);
+  border: 1px #4AED52 solid;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 40px;
+  width: 200px;
+  -webkit-box-shadow: 0 0 12px 1.5px #cf5959;
+  -moz-box-shadow: 0 0 12px 1.5px #cf5959;
+  box-shadow: 0 0 12px 1.5px #cf5959;
+}
+.landing-trending-button:hover {
+  -webkit-box-shadow: 0 0 12px 4.5px #cf5959;
+  -moz-box-shadow: 0 0 12px 4.5px #cf5959;
+  box-shadow: 0 0 12px 4.5px #cf5959;
+}
+/* FOOTER */
+.landing-footer-container{
+  background: url('./images/landing/footerBg-2.png') center center !important;
+  padding: 60px 80px 20px;
+  display: flex;
+  justify-content: center;
+}
+.landing-footer-title{
+  background: -webkit-linear-gradient( #E051F1, #1FF2F8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.landing-footer-row1-col2{
+  display: flex;
+  justify-content: space-between;
+}
+.landing-footer-links{
+  display: flex;
+  flex-direction: column;
+}
+.landing-footer-links > * {
+  margin-bottom: 15px;
+}
+.landing-footer-socials{
+  display: flex;
+  gap: 2%;
+}
+.landing-footer-row2{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
