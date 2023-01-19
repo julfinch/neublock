@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Link, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Layout } from "antd";
 import { Chart, GlobalPage, Nft, Homepage, News, Cryptocurrencies, CryptoDetails, Navbar, SignUp, LoginPage } from './components';
@@ -27,26 +27,26 @@ export default function App() {
       <Layout>
         <div className="routes">
           <Switch>
-            <Route exact path="/home">
-              <Homepage />
+            <Route exact path="/dashboard">
+              {isAuth ? <Homepage /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/global">
-              <GlobalPage />
+              {isAuth ? <GlobalPage /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/nft">
-              <Nft />
+              {isAuth ? <Nft /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/chart">
-              <Chart />
+              {isAuth ? <Chart /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/cryptocurrencies">
-              <Cryptocurrencies />
+              {isAuth ? <Cryptocurrencies /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/crypto/:coinId">
-              <CryptoDetails />
+              {isAuth ? <CryptoDetails /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/news">
-              <News />
+              {isAuth ? <News /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/signup">
               <SignUp />

@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Menu, Typography, Avatar, Card } from 'antd';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useHistory, Redirect } from 'react-router-dom';
 import { HomeOutlined, InfoCircleOutlined, CloseOutlined, GlobalOutlined, LogoutOutlined, DeploymentUnitOutlined, MoneyCollectOutlined, BulbOutlined, FundOutlined, MenuOutlined } from '@ant-design/icons';
+import { setLogout } from "../app/state";
+import { useDispatch } from "react-redux";
 
 import icon from '../images/logo.jpg';
 import card from '../images/card1.png';
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const [activeMenu, setActiveMenu] = useState(true);
   const [screenSize, setScreenSize] = useState(undefined);
   const { pathname } = useLocation();
 
-  if (pathname === "/" || pathname === "/login") {
-    return <></>
-  }
+  // if (pathname === "/" || pathname === "/login") {
+  //   return <></>
+  // }
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
@@ -63,7 +67,9 @@ const Navbar = () => {
         <Menu.Item icon={<BulbOutlined />}>
           <Link to="/news">News</Link>
         </Menu.Item>
-
+        <Menu.Item icon={<LogoutOutlined />} onClick = {() => dispatch(setLogout())}>
+          Log Out
+        </Menu.Item>
         {/*CARD */}
         <Card className="nav-ads-card" style={{width: '185px', height: '180px',marginTop: '100px'}}>
         <CloseOutlined style={{marginBottom: '18px'}}/>
@@ -72,13 +78,12 @@ const Navbar = () => {
         <img className="nav-ads-cc" src={card} />
         </Card>
 
+        
         {/* 
         <Menu.Item style={{marginTop: '20px'}} icon={<InfoCircleOutlined />}>
           <Link to="/help">Help - FAQ</Link>
         </Menu.Item>
-        <Menu.Item icon={<LogoutOutlined />}>
-          <Link to="/logout">Log Out</Link>
-        </Menu.Item>
+        
         */}
       </Menu>
         

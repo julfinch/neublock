@@ -21,18 +21,18 @@ import { webitApi } from '../services/webitApi';
 const persistConfig = { key: "root", storage, version: 1 };
 const persistedReducer = persistReducer(persistConfig, authReducer);
 
-const rootReducer = combineReducers({
-    crypto: {
-        [cryptoApi.reducerPath]: cryptoApi.reducer,
-        [cryptoNewsApi.reducerPath]: cryptoNewsApi.reducer,
-        [nftApi.reducerPath]: nftApi.reducer,
-        [webitApi.reducerPath]: webitApi.reducer,
-    },
-    login: persistedReducer,
-})
+// const rootReducer = combineReducers({
+//     crypto: {
+//         [cryptoApi.reducerPath]: cryptoApi.reducer,
+//         [cryptoNewsApi.reducerPath]: cryptoNewsApi.reducer,
+//         [nftApi.reducerPath]: nftApi.reducer,
+//         [webitApi.reducerPath]: webitApi.reducer,
+//     },
+//     login: persistedReducer,
+// })
 
 const store = configureStore({
-    reducer: rootReducer,
+    reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
         serializableCheck: {

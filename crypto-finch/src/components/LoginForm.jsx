@@ -10,10 +10,11 @@ import {
     Input,
     Upload,
     Typography,
+    notification,
 } from 'antd';
 import { Formik } from "formik";
 import * as yup from "yup";
-// import useNavigate from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../app/state";
 import Dropzone from "react-dropzone";
@@ -69,7 +70,7 @@ const validateMessages = {
 const LoginForm = () => {
     const [pageType, setPageType] = useState("login");
     const dispatch = useDispatch();
-    // const navigate = useNavigate();
+    const history = useHistory();
     const isLogin = pageType === "login";
     const isRegister = pageType === "register";
     const [file, setFile] = useState(null);
@@ -112,6 +113,10 @@ const LoginForm = () => {
         }
         } catch (err) {
             console.log(err);
+            notification.error({
+                message: 'Error!',
+                description: 'err.message',
+            });
         }
     };
 
@@ -126,11 +131,11 @@ const LoginForm = () => {
         if (loggedIn) {
         dispatch(
             setLogin({
-            user: loggedIn.user,
-            token: loggedIn.token,
+                user: loggedIn.user,
+                token: loggedIn.token,
             })
         );
-        // navigate("/home");
+        history.push("/dashboard");
         }
     };
 
@@ -155,7 +160,7 @@ const LoginForm = () => {
             setFieldValue,
             resetForm,
         }) => (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="login-form">
             {/* <Box
                 display="grid"
                 gap="30px"
@@ -260,7 +265,11 @@ const LoginForm = () => {
                     </Col>
                     </Row> */}
 
-                    <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+                    <input 
+                        className="login-form-upload"
+                        type="file" 
+                        onChange={(e) => setFile(e.target.files[0])} 
+                    />
 
                     {/* <Form.Item
                         name="upload"
@@ -384,13 +393,19 @@ const LoginForm = () => {
                     <Button type="primary" htmlType="submit" className="login-form-button">
                     {isLogin ? "LOGIN" : "REGISTER"}
                     </Button>
-                    Or <Title level={5} style={{ cursor: 'pointer'}} onClick={() => {
-                    setPageType(isLogin ? "register" : "login");
-                    resetForm();
-                }}>
-                    {isLogin
-                    ? "Don't have an account? Sign Up here."
-                    : "Already have an account? Login here."}</Title>
+                    
+                    <Title 
+                        level={5} 
+                        style={{ cursor: 'pointer'}} 
+                        className="login-form-text" 
+                        onClick={() => {
+                        setPageType(isLogin ? "register" : "login");
+                        resetForm();
+                    }}>
+                        {isLogin
+                        ? "Don't have an account? Sign Up here."
+                        : "Already have an account? Login here."}
+                    </Title>
                 </Form.Item>
             {/* </Box> */}
             </form>

@@ -16,7 +16,7 @@ const Trending = () => {
             <Title level={3}>TRENDING AUCTIONS</Title>
             <div className="landing-trending-cards">
                 {cards.map((card, index) => (
-                <div>
+                <div key={index}>
                 <Image  width={410} key={index} src={card.icon} />
                 </div>
                 ))}

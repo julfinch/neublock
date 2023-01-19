@@ -21,6 +21,7 @@ const { Meta } = Card;
 const { Header, Content, Sider } = Layout;
 const { Search } = Input;
 import useWindowSize from "../hooks/useWindowSize";
+import { useDispatch, useSelector } from "react-redux";
 
 const data = [
   {
@@ -50,6 +51,7 @@ const data = [
 ];
 
 const Homepage = () => {
+  const user = useSelector((state) => state.user);
   const { width } = useWindowSize();
   const [openSettings, setOpenSettings] = useState(false);
   const [openCredits, setOpenCredits] = useState(false);

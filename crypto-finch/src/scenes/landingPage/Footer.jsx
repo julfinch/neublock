@@ -19,7 +19,7 @@ const Footer = () => {
             <Paragraph style={{display: 'flex', flexWrap: 'no-wrap'}}> The largest NFT Marketplace. <br/> Unique and authentic digital creations.<br/> Made possible by blockchain technology.</Paragraph>
             <div className="landing-footer-socials">
                 {icons.map((icon, index) => (
-                <div>
+                <div key={index}>
                 <Image width={30} key={index} src={icon.icon} preview={false}/>
                 </div>
                 ))}

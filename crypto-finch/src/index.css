@@ -1136,6 +1136,62 @@ width: 70%;
   align-items: center;
 }
 
+/* ---------------------- LOGIN PAGE ------------------------ */
+.login-container{
+  background: url('./images/landing/footerBg.png') center right !important;
+  padding: 30px 80px;
+  overflow: hidden;
+  position: relative;
+}
+.login-form{
+  display: flex;
+  flex-direction: column;  
+}
+.login-form > input{
+  margin-bottom: 10px;
+  width: 100%;
+  height: 35px;
+  padding: 0 7px;
+}
+.login-form-button{
+  margin-bottom: 40px;
+}
+.login-form-logo{
+  position: absolute;
+  bottom: -70%;
+  border-radius: 50px;
+  border: 7px solid #120649;
+  -webkit-box-shadow: 0 0 0 5px #413350 !important;
+  -moz-box-shadow: 0 0 0 5px #413350 !important;
+  box-shadow: 0 0 0 5px #413350 !important;
+}
+.login-form-header{
+  background: url('./images/landing/loginFormBg.png') !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.login-form-content{
+  padding: 40px 50px 0px;
+}
+.login-form-layout{
+  background: rgba(255,255,255,0.2)!important;
+  -webkit-backdrop-filter: blur(10px)!important;
+  backdrop-filter: blur(10px)!important;
+}
+.login-form-container{
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 20px;
+  min-height: 90vh;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
+
 /* ---------------------- LANDING PAGE ------------------------ */
 
 /* HERO */
@@ -1149,6 +1205,7 @@ width: 70%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  z-index: 100;
 }
 .landing-nav-logo{
   display: flex;
@@ -1161,6 +1218,12 @@ width: 70%;
   display: flex;
   align-items: center;
   list-style: none;
+  color: white;
+}
+.landing-nav-listItem:hover {
+  color: #1ff2f8;
+}
+.landing-nav-listItem{
   color: white;
 }
 .landing-nav-listItem:nth-child(2){
@@ -1235,6 +1298,16 @@ width: 70%;
   filter: blur(72px);
   top: 5%;
   right: -14%;
+}
+.landing-hero-ellipse3{
+  position: absolute;
+  width: 22rem;
+  height: 22rem;
+  border-radius: 50%;
+  background: #120649;
+  filter: blur(72px);
+  top: -25%;
+  left: -12%;
 }
 
 /* COMPANIES */

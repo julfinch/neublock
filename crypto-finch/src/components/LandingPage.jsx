@@ -1,6 +1,6 @@
 import React from 'react'
 import { Hero, Companies, Trending, Footer } from '../scenes/landingPage';
-import { Col, Layout, Image, Row, Typography, Select, Card } from 'antd';
+import { Col, Layout } from 'antd';
 
 
 
