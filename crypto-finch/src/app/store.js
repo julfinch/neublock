@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
+import { createStore } from 'redux'
 import {
     persistStore,
     persistReducer,
@@ -22,24 +23,56 @@ const persistConfig = { key: "root", storage, version: 1 };
 const persistedReducer = persistReducer(persistConfig, authReducer);
 
 // const rootReducer = combineReducers({
-//     crypto: {
-//         [cryptoApi.reducerPath]: cryptoApi.reducer,
-//         [cryptoNewsApi.reducerPath]: cryptoNewsApi.reducer,
-//         [nftApi.reducerPath]: nftApi.reducer,
-//         [webitApi.reducerPath]: webitApi.reducer,
-//     },
-//     login: persistedReducer,
+//     persisted: persistedReducer,
+//     crypto: cryptoApi.reducer,
+//     cryptoNews: cryptoNewsApi.reducer,
+//     nft: nftApi.reducer,
+//     webit: webitApi.reducer,
 // })
 
-const store = configureStore({
-    reducer: persistedReducer,
+// const otherReducers = {
+//     [cryptoApi.reducerPath]: cryptoApi.reducer,
+//     [cryptoNewsApi.reducerPath]: cryptoNewsApi.reducer,
+//     [nftApi.reducerPath]: nftApi.reducer,
+//     [webitApi.reducerPath]: webitApi.reducer,
+// };
+
+// const combinedReducers = {
+//     ...persistedReducer.reducer,
+//     ...otherReducers,
+//   };
+  
+  const store = configureStore({
+    reducer: {
+        ...cryptoApi.reducer,
+        ...cryptoNewsApi.reducer,
+        ...nftApi.reducer,
+        ...webitApi.reducer,
+        ...persistedReducer,
+    },
     middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
+    getDefaultMiddleware()
+    .concat(cryptoApi.middleware)
+    .concat(cryptoNewsApi.middleware)
+    .concat(nftApi.middleware)
+    .concat(webitApi.middleware)
+    .concat(getDefaultMiddleware({
         serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         },
-    }),
-});
+    })),
+  });
+
+// const store = configureStore({
+//     reducer: persistedReducer,
+//     middleware: (getDefaultMiddleware) =>
+//     getDefaultMiddleware({
+//         serializableCheck: {
+//         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+//         },
+//     }),
+// });
+
 
 export default store;
 // export default configureStore({

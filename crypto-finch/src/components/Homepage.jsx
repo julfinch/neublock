@@ -21,7 +21,7 @@ const { Meta } = Card;
 const { Header, Content, Sider } = Layout;
 const { Search } = Input;
 import useWindowSize from "../hooks/useWindowSize";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const data = [
   {
@@ -83,6 +83,7 @@ const Homepage = () => {
     setOpenNotifications(false);
   };
 
+  const fullName = `${user.firstName} ${user.lastName}`;
 
   return (
       <Layout className="homepage-container" style={{minHeight: '100vh',}}>
@@ -91,7 +92,7 @@ const Homepage = () => {
           <Header className="header-container">
             <Row >
                 <Col span={4} style={{height: '45px', display: 'grid', placeContent: 'center', padding: '0px'}}>
-                  <p style={{color: '#fff', fontSize: '19px', lineHeight: '0.1'}}>Hi, Lara!</p>
+                  <p style={{color: '#fff', fontSize: '19px', lineHeight: '0.1'}}>Hi, {user.firstName}!</p>
                 </Col>
                 <Col span={8} offset={width > 1100 ? 8 : 4}>
                   <Search
@@ -245,8 +246,8 @@ const Homepage = () => {
           <Row className="sidebar-profile">
             <Col span={24} className="sidebar-user-right" style={{ position: 'relative'}}>
               <Image src={avatar_bg} style={{width: 246}}/>
-              <Image src={avatar_pic} style={{ position: 'absolute', width: 125, left: '-186px', top: '-69px' }} />
-              <Meta className="sidebar-profile-name" title="Lara D. Turner" description="@degen_ape01" style={{ color: '#fff', position: 'absolute', bottom: '-1px'}}/>
+              <Image src={user.picturePath} style={{ position: 'absolute', width: 125, left: '-186px', top: '-64px' , borderRadius:'50%'}} />
+              <Meta className="sidebar-profile-name" title={fullName} description={user.email} style={{ textAlign: 'center', color: '#fff', position: 'absolute', bottom: '-1px'}}/>
             </Col>
           </Row>               
           

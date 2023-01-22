@@ -1153,8 +1153,29 @@ width: 70%;
   height: 35px;
   padding: 0 7px;
 }
+.login-form .ant-form-item-control-input-content input {
+  height: 28px;
+}
+.login-form .ant-form-item-explain-error {
+  font-size: 12px;
+}
+.login-form .ant-input {
+  font-size: 15px !important;
+  font-weight: 300 !important;
+}
+.login-form .ant-input-affix-wrapper {
+  padding: 0px 0px;
+  background-color: transparent;
+  border: 0px;
+}
+.login-form .ant-input-password-icon.anticon {
+  color: var(--text-primary);
+}
+.login-form .ant-input-affix-wrapper > input.ant-input {
+  border: 1px solid var(--text-primary);
+}
 .login-form-button{
-  margin-bottom: 40px;
+  margin: 20px 20px 20px 0px;
 }
 .login-form-logo{
   position: absolute;
@@ -1175,7 +1196,7 @@ width: 70%;
   justify-content: center;
 }
 .login-form-content{
-  padding: 40px 50px 0px;
+  padding: 40px 30px 0px;
 }
 .login-form-layout{
   background: rgba(255,255,255,0.2)!important;

@@ -38,7 +38,7 @@ const Navbar = () => {
   }, [screenSize]);
 
   return (
-    <div className="nav-container circles" style={{ zIndex: '1000'}}>
+    <div className="nav-container circles" style={{ zIndex: '1000',}}>
       <div className="logo-container">
         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
           <Avatar src={icon} size="medium" style={{width: 42}}/>
@@ -50,7 +50,7 @@ const Navbar = () => {
       {activeMenu && (
       <Menu theme="dark">
         <Menu.Item icon={<HomeOutlined />}>
-          <Link to="/home">Home</Link>
+          <Link to="/dashboard">Home</Link>
         </Menu.Item>
         <Menu.Item icon={<GlobalOutlined />}>
           <Link to="/global">Global</Link>
@@ -71,7 +71,7 @@ const Navbar = () => {
           Log Out
         </Menu.Item>
         {/*CARD */}
-        <Card className="nav-ads-card" style={{width: '185px', height: '180px',marginTop: '100px'}}>
+        <Card className="nav-ads-card" style={{width: '185px', height: '180px',marginTop: '50px',}}>
         <CloseOutlined style={{marginBottom: '18px'}}/>
         <Typography.Title level={4} className="nav-card-title-1">Your credit card is almost ready!</Typography.Title>
         <Typography.Title level={4} className="nav-card-title-2">Continue Setup</Typography.Title>

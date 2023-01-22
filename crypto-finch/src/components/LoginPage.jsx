@@ -1,6 +1,6 @@
 import { Col, Row, Typography, Layout, Image } from 'antd';
 import Navbar from '../scenes/landingPage/Navbar';
-import LoginForm from "./LoginForm";
+import LoginForm from "./LoginForm2";
 import logo from "../images/logo.jpg";
 
 const { Header, Content } = Layout;

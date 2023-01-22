@@ -1,14 +1,18 @@
 import React from 'react'
 import { Checkbox, Form, Input, Image, Typography, Button } from 'antd';
 import avatar_pic from "../images/avatar_pic.svg";
+import { useSelector } from "react-redux";
+
 
 const Settings = () => {
+  const user = useSelector((state) => state.user);
+
   return (
     <>
         <Typography.Title level={4} style={{fontSize: '16px'}}>Account Settings</Typography.Title>
           <p style={{fontSize: '11px', color: 'rgba(255,255,255,0.3'}}>Profile picture, personal information and phone number</p>
           <Typography.Title level={4} style={{fontSize: '13px'}}>Profile picture</Typography.Title>
-          <Image src={avatar_pic} style={{ width: 80, }} />
+          <Image src={user.picturePath} style={{ width: 80, }} />
           <p style={{fontSize: '11px', color: 'rgba(255,255,255,0.3'}}>Click <span style={{color: 'cyan'}}>HERE</span> to change profile picture</p>
           <Typography.Title level={4} style={{fontSize: '13px'}}>Personal information and phone number</Typography.Title>
           <p style={{fontSize: '11px', color: 'rgba(255,255,255,0.3'}}>Update your profile name. You can also edit your phone number. Click on 'save changes' when you are done.</p>
@@ -23,7 +27,7 @@ const Settings = () => {
             layout="vertical"
             size="small"
           >
-            <Form.Item label="Last name" name="lastname">
+            <Form.Item label="Last name" name="lastName" value={user.lastName}>
               <Input />
             </Form.Item>
           </Form>
@@ -36,7 +40,7 @@ const Settings = () => {
             layout="vertical"
             size="small"
           >
-            <Form.Item label="First name" name="firstname">
+            <Form.Item label="First name" name="firstName" value={user.firstName}>
               <Input />
             </Form.Item>
           </Form>
@@ -50,12 +54,12 @@ const Settings = () => {
             layout="vertical"
             size="small"
           >
-            <Form.Item label="Email address" name="email">
+            <Form.Item label="Email address" name="email" value={user.email}>
               <Input/>
             </Form.Item>
-            <Form.Item label="Phone number" name="number">
+            {/* <Form.Item label="Phone number" name="number">
               <Input/>
-            </Form.Item>
+            </Form.Item> */}
             
             <Typography.Title level={4} style={{fontSize: '16px'}}>Notifications</Typography.Title>
             <p style={{fontSize: '11px', color: 'rgba(255,255,255,0.3'}}>Customize type of notifications you want to achieve</p>
@@ -73,7 +77,7 @@ const Settings = () => {
             </Form.Item>
 
             <Form.Item wrapperCol={{span: 24,}}>
-              <Button type="primary" htmlType="submit" className="heading-explore-button" style={{width: '100%',height: '30px', fontSize: '16px', color: '#fff',borderRadius: '6px', border: '0px', marginTop: '10px'}}>
+              <Button type="primary" htmlType="submit" className="heading-explore-button" style={{width: '100%',height: '30px', fontSize: '16px', color: '#fff',borderRadius: '6px', border: '0px', marginTop: '40px'}}>
                 Save changes
               </Button>
             </Form.Item>
