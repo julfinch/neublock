@@ -17,7 +17,7 @@ const Trending = () => {
             <div className="landing-trending-cards">
                 {cards.map((card, index) => (
                 <div key={index}>
-                <Image  width={410} key={index} src={card.icon} />
+                <Image  width={{xl:'410'}} key={index} src={card.icon} />
                 </div>
                 ))}
             </div>

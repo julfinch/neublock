@@ -1,12 +1,13 @@
 import React from 'react'
 import { Image, Typography } from 'antd';
-import logo from "../../images/logo.jpg";
+import logo from "../../images/logo.png";
 import { Link, useLocation } from 'react-router-dom';
 
 const { Title } = Typography;
 
 const Navbar = () => {
     const { pathname } = useLocation();
+    
 
   return (
     <>

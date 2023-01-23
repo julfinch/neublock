@@ -1142,10 +1142,13 @@ width: 70%;
   padding: 30px 80px;
   overflow: hidden;
   position: relative;
+
 }
 .login-form{
   display: flex;
   flex-direction: column;  
+  border-radius: 20px;
+
 }
 .login-form > input{
   margin-bottom: 10px;
@@ -1165,7 +1168,7 @@ width: 70%;
 }
 .login-form .ant-input-affix-wrapper {
   padding: 0px 0px;
-  background-color: var(--bgTertiary);
+  background-color: transparent;
   border: 0px;
 }
 .login-form .ant-input-password-icon.anticon {
@@ -1205,7 +1208,6 @@ width: 70%;
 }
 .login-form-container{
   border: 1px solid rgba(255,255,255,0.5);
-  border-radius: 20px;
   min-height: 90vh;
   display: flex;
   overflow: hidden;
@@ -1221,6 +1223,7 @@ width: 70%;
   padding: 30px 80px;
   overflow: hidden;
   position: relative;
+  height: 100vh;
 }
 .landing-nav{
   display: flex;
@@ -1276,7 +1279,6 @@ width: 70%;
   flex-shrink: 2;
 }
 
-
 .landing-hero-connect{
   padding: 3px 20px;
   background: rgba(189, 36, 230, 1);
@@ -1330,6 +1332,12 @@ width: 70%;
   top: -25%;
   left: -12%;
 }
+@media screen and (max-width: 1200px){
+  .landing-hero-container{
+      height: 90vh !important;
+  }
+}
+
 
 /* COMPANIES */
 .landing-companies-container{
@@ -1337,6 +1345,7 @@ width: 70%;
   padding: 0px 80px;
   display: flex;
   justify-content: center;
+  height: 20vh;
 }
 .landing-companies-logos{
   display: flex;
@@ -1344,6 +1353,13 @@ width: 70%;
   align-items: center;
   justify-content: space-between;
 }
+@media screen and (max-width: 1200px){
+  .landing-companies-container{
+      height: 18vh !important;
+  }
+}
+
+
 /* TRENDING */
 .landing-trending-container{
   background: url('./images/landing/trendingBg.png') center center !important;
@@ -1384,6 +1400,7 @@ width: 70%;
   padding: 60px 80px 20px;
   display: flex;
   justify-content: center;
+  height: 78vh;
 }
 .landing-footer-title{
   background: -webkit-linear-gradient( #E051F1, #1FF2F8);
@@ -1409,4 +1426,9 @@ width: 70%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+@media screen and (max-width: 1200px){
+  .landing-footer-container{
+      height: 66vh !important;
+  }
 }

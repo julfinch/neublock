@@ -12,7 +12,7 @@ const { Text, Title, Paragraph } = Typography;
 const Footer = () => {
   return (
     <>
-      <Layout className="landing-footer-container" style={{minHeight: '78vh',}}>
+      <Layout className="landing-footer-container">
         <Row style={{ margin: '70px 0 100px'}}>
           <Col flex={2}>
             <Title level={1} className="landing-footer-title">NeuBlock</Title>

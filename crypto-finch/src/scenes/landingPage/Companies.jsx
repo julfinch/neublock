@@ -14,7 +14,7 @@ const logos = [ {icon: l1, title: 'BinanceUSD'},{icon: l2, title: 'BinanceSmart'
 const Companies = () => {
   return (
     <>
-      <Layout className="landing-companies-container" style={{minHeight: '20vh',}}>
+      <Layout className="landing-companies-container">
         <div className='landing-companies-logos'>
           {logos.map((logo, index) => (
             <div key={index}>

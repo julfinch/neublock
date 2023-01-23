@@ -8,12 +8,12 @@ const { Text } = Typography;
 const Hero = () => {
   return (
     <>
-      <Layout className="landing-hero-container" style={{minHeight: '100vh',}}>
+      <Layout className="landing-hero-container">
         
         <Navbar/>
 
         <Row>
-          <Col className="landing-hero-grid" xs={12} sm={11} md={11} lg={10} xl={10} style={{ display: 'flex'}}>
+          <Col className="landing-hero-grid" xs={12} sm={11} md={11} lg={11} xl={10} style={{ display: 'flex',}}>
             <div className="landing-hero-content">
               <Text>THE LARGEST NFT MARKETPLACE</Text>
               <Text style={{ fontSize: 'clamp(1rem, 4.5vw, 3.7rem)', fontWeight: 'bold'}}>DISCOVER RARE</Text>
@@ -25,7 +25,7 @@ const Hero = () => {
               </button>
             </div>
           </Col>
-          <Col className="landing-hero-grid" xs={0} sm={2} md={2} lg={4} xl={4}>
+          <Col className="landing-hero-grid" xs={0} sm={2} md={2} lg={0} xl={4}>
             
           </Col>
           <Col className="landing-hero-grid" xs={12} sm={11} md={11} lg={10} xl={10}>
@@ -34,6 +34,7 @@ const Hero = () => {
                 height={550}
                 src={card}
                 preview={false}
+                style={{ marginLeft: '-50px'}}
               />
           </Col>
         </Row>
