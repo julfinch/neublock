@@ -248,8 +248,8 @@ const Homepage = () => {
 
           <Row className="sidebar-profile">
             <Col span={24} className="sidebar-user-right" style={{ position: 'relative'}}>
-              <Image src={avatar_bg} style={{width: 246}}/>
-              <Image src={user.picturePath} style={{ position: 'absolute', width: 125, left: '-186px', top: '-64px' , borderRadius:'50%'}} />
+              <Image src={avatar_bg} style={{zIndex: '10', width: 246}}/>
+              <Image src={user.picturePath} style={{ zIndex: '100', position: 'absolute', width: 125, left: '-186px', top: '-64px' , borderRadius:'50%'}} />
               <Meta className="sidebar-profile-name" title={fullName} description={user.email} style={{ textAlign: 'center', color: '#fff', position: 'absolute', bottom: '-1px'}}/>
             </Col>
           </Row>               
