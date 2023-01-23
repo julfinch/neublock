@@ -115,7 +115,8 @@ const LoginForm = () => {
         
     };
 
-    const login = async () => {
+    const login = async (e) => {
+    
         const loginUser = {
             email,
             password,
@@ -126,20 +127,28 @@ const LoginForm = () => {
         body: JSON.stringify(loginUser),
         });
         const loggedIn = await loggedInResponse.json();
+
         if (loggedIn) {
-        dispatch(
-            setLogin({
-                user: loggedIn.user,
-                token: loggedIn.token,
-            })
-        );
-        history.push("/dashboard");
+            localStorage.setItem('user', JSON.stringify(loggedIn.user))
+            localStorage.setItem('token', loggedIn.token)
+            console.log('loggedIn', loggedIn);
+            console.log('loggedIn user firstName', loggedIn.user.firstName);
+            console.log('user firstName', JSON.parse(localStorage.getItem('user')));
+
+        // dispatch(
+        //     setLogin({
+        //         user: loggedIn.user,
+        //         token: loggedIn.token,
+        //     })
+        // );
+            history.push("/dashboard");
         }
+        history.push("/dashboard");
 
     };
 
-    const handleFormSubmit = async () => {
-        if (isLogin) await login();
+    const handleFormSubmit = async (e) => {
+        if (isLogin) await login(e);
         if (isRegister) await register();
     };
 
@@ -153,7 +162,7 @@ const LoginForm = () => {
         <Form
             {...layout}
             form={form}
-            onFinish={handleFormSubmit}
+            onFinish={(e) => handleFormSubmit(e)}
             name="control-hooks"
             style={{ maxWidth: 600 }}
             >

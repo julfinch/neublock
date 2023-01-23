@@ -51,7 +51,10 @@ const data = [
 ];
 
 const Homepage = () => {
-  const user = useSelector((state) => state.user);
+  // const user = useSelector((state) => state.user);
+  const user = JSON.parse(localStorage.getItem('user'));
+  console.log('user', user);
+
   const { width } = useWindowSize();
   const [openSettings, setOpenSettings] = useState(false);
   const [openCredits, setOpenCredits] = useState(false);

@@ -1165,7 +1165,7 @@ width: 70%;
 }
 .login-form .ant-input-affix-wrapper {
   padding: 0px 0px;
-  background-color: transparent;
+  background-color: var(--bgTertiary);
   border: 0px;
 }
 .login-form .ant-input-password-icon.anticon {

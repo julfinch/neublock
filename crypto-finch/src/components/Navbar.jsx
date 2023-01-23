@@ -2,15 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { Button, Menu, Typography, Avatar, Card } from 'antd';
 import { Link, useLocation, useHistory, Redirect } from 'react-router-dom';
 import { HomeOutlined, InfoCircleOutlined, CloseOutlined, GlobalOutlined, LogoutOutlined, DeploymentUnitOutlined, MoneyCollectOutlined, BulbOutlined, FundOutlined, MenuOutlined } from '@ant-design/icons';
-import { setLogout } from "../app/state";
 import { useDispatch } from "react-redux";
+
 
 import icon from '../images/logo.jpg';
 import card from '../images/card1.png';
 
-const Navbar = () => {
-  const dispatch = useDispatch();
+  
+  const Navbar = () => {
+    
   const history = useHistory();
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    history.push("/login");
+  }
+  const dispatch = useDispatch();
   const [activeMenu, setActiveMenu] = useState(true);
   const [screenSize, setScreenSize] = useState(undefined);
   const { pathname } = useLocation();
@@ -67,7 +74,7 @@ const Navbar = () => {
         <Menu.Item icon={<BulbOutlined />}>
           <Link to="/news">News</Link>
         </Menu.Item>
-        <Menu.Item icon={<LogoutOutlined />} onClick = {() => dispatch(setLogout())}>
+        <Menu.Item icon={<LogoutOutlined />} onClick = {handleLogout}>
           Log Out
         </Menu.Item>
         {/*CARD */}

@@ -1,6 +1,8 @@
-import React from "react";
+import React,{ useEffect } from "react";
 import { Switch, Route, Link, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+
 import { Layout } from "antd";
 import { Chart, GlobalPage, Nft, Homepage, News, Cryptocurrencies, CryptoDetails, Navbar, SignUp, LoginPage } from './components';
 import LandingPage from "./components/LandingPage";
@@ -8,7 +10,12 @@ import { AuthContextProvider } from './context/AuthContext';
 
 
 export default function App() {
-  const isAuth = Boolean(useSelector((state) => state.token));
+    const history = useHistory();
+
+  // const isAuth = Boolean(useSelector((state) => state.token));
+  
+  const auth = localStorage.getItem('token');
+  console.log('auth', auth)
 
   return (
     <AuthContextProvider>
@@ -28,25 +35,25 @@ export default function App() {
         <div className="routes">
           <Switch>
             <Route exact path="/dashboard">
-              {isAuth ? <Homepage /> : <Redirect to="/" />}
+              {auth ? <Homepage /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/global">
-              {isAuth ? <GlobalPage /> : <Redirect to="/" />}
+              {auth ? <GlobalPage /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/nft">
-              {isAuth ? <Nft /> : <Redirect to="/" />}
+              {auth ? <Nft /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/chart">
-              {isAuth ? <Chart /> : <Redirect to="/" />}
+              {auth ? <Chart /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/cryptocurrencies">
-              {isAuth ? <Cryptocurrencies /> : <Redirect to="/" />}
+              {auth ? <Cryptocurrencies /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/crypto/:coinId">
-              {isAuth ? <CryptoDetails /> : <Redirect to="/" />}
+              {auth ? <CryptoDetails /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/news">
-              {isAuth ? <News /> : <Redirect to="/" />}
+              {auth ? <News /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/signup">
               <SignUp />

@@ -5,7 +5,9 @@ import { useSelector } from "react-redux";
 
 
 const Settings = () => {
-  const user = useSelector((state) => state.user);
+  // const user = useSelector((state) => state.user);
+  const user = JSON.parse(localStorage.getItem('user'));
+
 
   return (
     <>
