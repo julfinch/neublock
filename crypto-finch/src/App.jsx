@@ -26,9 +26,6 @@ export default function App() {
       <Route exact path="/login">
         <LoginPage />
       </Route>
-      <Route exact path="/login">
-        <GlobalPage />
-      </Route>
     <div className="app">
       <div className="navbar">
         <Navbar/>
@@ -41,8 +38,7 @@ export default function App() {
               {auth ? <Homepage /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/global">
-              {/* {auth ? <GlobalPage /> : <Redirect to="/" />} */}
-              <GlobalPage />
+              {auth ? <GlobalPage /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/nft">
               {auth ? <Nft /> : <Redirect to="/" />}
