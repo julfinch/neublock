@@ -38,7 +38,8 @@ export default function App() {
               {auth ? <Homepage /> : <Redirect to="/" />}
             </Route>
             <Route exact path="/global">
-              {auth ? <GlobalPage /> : <Redirect to="/" />}
+              {/* {auth ? <GlobalPage /> : <Redirect to="/" />} */}
+              <GlobalPage />
             </Route>
             <Route exact path="/nft">
               {auth ? <Nft /> : <Redirect to="/" />}
