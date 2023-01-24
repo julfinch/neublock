@@ -26,6 +26,9 @@ export default function App() {
       <Route exact path="/login">
         <LoginPage />
       </Route>
+      <Route exact path="/login">
+        <GlobalPage />
+      </Route>
     <div className="app">
       <div className="navbar">
         <Navbar/>
