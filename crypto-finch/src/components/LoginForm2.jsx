@@ -85,7 +85,7 @@ const LoginForm = () => {
             //     body: registerValues,
             // }
             // );
-            axios.post('http://localhost:3001/auth/register', registerValues)
+            axios.post('https://neublock-backend.onrender.com/auth/register', registerValues)
                 .then(response => {
                     console.log("Reg response", response);
                     const savedUser = response.data;
@@ -121,7 +121,7 @@ const LoginForm = () => {
             email,
             password,
         };
-        const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
+        const loggedInResponse = await fetch("https://neublock-backend.onrender.com/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(loginUser),
