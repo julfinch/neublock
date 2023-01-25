@@ -16,7 +16,7 @@ const GlobalPage = () => {
   const auth = localStorage.getItem('token');
   // console.log('auth', auth);
   
-  if (!auth) {
+  if (!auth || auth === 'undefined') {
     history.push("/login");
   }
 

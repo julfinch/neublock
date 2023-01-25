@@ -38,16 +38,16 @@ const Navbar = () => {
               <li className="landing-nav-listItem">Events</li>
             </ul>
           </div>
-          {auth ?
-          <Link to={"/dashboard"}>
-          <button className="landing-nav-signin" onClick={handleDashboard}>
-            Dashboard
-          </button>
-          </Link>
-          : 
+          {!auth || auth === 'undefined' ?
           <Link to={pathname === "/login" ? "/" : "/login"}>
           <button className="landing-nav-signin">
             {pathname === "/login" ? "Connect Wallet" : "Sign In"}
+          </button>
+          </Link>
+          :
+          <Link to={"/dashboard"}>
+          <button className="landing-nav-signin" onClick={handleDashboard}>
+            Dashboard
           </button>
           </Link>
           }

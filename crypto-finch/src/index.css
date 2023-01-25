@@ -278,7 +278,7 @@ a:hover{
   color: var(--text-primary) !important;
   font-size: 12px !important;
   background-color: var(--bgTertiary) !important;
-  border-radius: 5px !important;
+  /* border-radius: 5px !important; */
 }
 .ant-form-item {
   margin-bottom: 4px !important;
@@ -1167,16 +1167,16 @@ width: 70%;
   font-weight: 300 !important;
 }
 .login-form .ant-input-affix-wrapper {
-  padding: 0px 0px;
-  background-color: transparent;
-  border: 0px;
+  padding: 0px 7px 0px 0px;
+  background-color: var(--bgTertiary);
+  border: 1px solid white;
 }
 .login-form .ant-input-password-icon.anticon {
   color: var(--text-primary);
 }
-.login-form .ant-input-affix-wrapper > input.ant-input {
+/* .login-form .ant-input-affix-wrapper > input.ant-input {
   border: 1px solid var(--text-primary);
-}
+} */
 .login-form-button{
   margin: 20px 20px 20px 0px;
 }
