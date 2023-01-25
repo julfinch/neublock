@@ -13,7 +13,7 @@ import Settings from "./Settings";
 import Credits from "./Credits";
 import Notifications from "./Notifications";
 import Chat from "./Chat";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import HomeDonut from "./HomeDonut";
 import { zodiacData, dawgzData, monkiesData, assetsData, topData } from "../images/dummy";
 import Loader from './Loader';
@@ -51,7 +51,21 @@ const data = [
 ];
 
 const Homepage = () => {
-  // const user = useSelector((state) => state.user);
+  const history = useHistory();
+  const isAuth = Boolean(useSelector((state) => state.login));
+  console.log("state isAuth", isAuth)
+  const stateuser = useSelector((state) => state.user);
+  console.log("state user", stateuser)
+  const token = useSelector((state) => state.token);
+  console.log("state token", token)
+
+  const auth = localStorage.getItem('token');
+  console.log('auth', auth);
+
+  if (!auth) {
+    history.push("/login");
+  }
+
   const user = JSON.parse(localStorage.getItem('user'));
   console.log('user', user);
 

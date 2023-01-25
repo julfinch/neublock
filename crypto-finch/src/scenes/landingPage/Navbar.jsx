@@ -1,13 +1,19 @@
 import React from 'react'
 import { Image, Typography } from 'antd';
 import logo from "../../images/logo.png";
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
+
 
 const { Title } = Typography;
 
 const Navbar = () => {
+    const history = useHistory();
     const { pathname } = useLocation();
-    
+    const auth = localStorage.getItem('token');
+
+    const handleDashboard = () => {
+      history.push("/dashboard");
+    };
 
   return (
     <>
@@ -32,11 +38,19 @@ const Navbar = () => {
               <li className="landing-nav-listItem">Events</li>
             </ul>
           </div>
+          {auth ?
+          <Link to={"/dashboard"}>
+          <button className="landing-nav-signin" onClick={handleDashboard}>
+            Dashboard
+          </button>
+          </Link>
+          : 
           <Link to={pathname === "/login" ? "/" : "/login"}>
           <button className="landing-nav-signin">
             {pathname === "/login" ? "Connect Wallet" : "Sign In"}
           </button>
           </Link>
+          }
         </div>
     </>
   )

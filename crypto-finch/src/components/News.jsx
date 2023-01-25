@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Select, Typography, Row, Col, Avatar, Card } from 'antd';
 import moment from 'moment';
+import { useHistory } from "react-router-dom";
+
 
 import { useGetCryptosQuery } from '../services/cryptoApi';
 import { useGetCryptoNewsQuery } from '../services/cryptoNewsApi';
@@ -12,10 +14,19 @@ const { Text, Title } = Typography;
 const { Option } = Select;
 
 const News = ({ simplified }) => {
+  const history = useHistory();
+
+  const auth = localStorage.getItem('token');
+  // console.log('auth', auth);
+  
+  if (!auth) {
+    history.push("/login");
+  }
+
   const [newsCategory, setNewsCategory] = useState('Cryptocurrency');
   const { data } = useGetCryptosQuery(100);
   const { data: cryptoNews } = useGetCryptoNewsQuery({ newsCategory, count: simplified ? 6 : 12 });
-  console.log(cryptoNews);
+  // console.log(cryptoNews);
   if (!cryptoNews?.value) return <Loader />;
 
   return (

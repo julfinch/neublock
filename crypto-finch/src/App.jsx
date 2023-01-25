@@ -1,4 +1,4 @@
-import React,{ useEffect } from "react";
+import React,{ useState } from "react";
 import { Switch, Route, Link, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -13,12 +13,17 @@ export default function App() {
     const history = useHistory();
 
   // const isAuth = Boolean(useSelector((state) => state.token));
+  // console.log("state isAuth", isAuth)
+  // const user = useSelector((state) => state.user);
+  // console.log("state user", user)
+  // const token = useSelector((state) => state.token);
+  // console.log("state token", token)
   
   const auth = localStorage.getItem('token');
   console.log('auth', auth)
 
   return (
-    <AuthContextProvider>
+    // <AuthContextProvider>
     <div className="app-container">
       <Route exact path="/">
         <LandingPage />
@@ -35,29 +40,36 @@ export default function App() {
         <div className="routes">
           <Switch>
             <Route exact path="/dashboard">
-              {auth ? <Homepage /> : <Redirect to="/" />}
+              {/* {auth ? <Homepage /> : <Redirect to="/" />} */}
+              <Homepage />
             </Route>
             <Route exact path="/global">
-              {auth ? <GlobalPage /> : <Redirect to="/" />}
+              {/* {auth ? <GlobalPage /> : <Redirect to="/" />} */}
+              <GlobalPage />
             </Route>
             <Route exact path="/nft">
-              {auth ? <Nft /> : <Redirect to="/" />}
+              {/* {auth ? <Nft /> : <Redirect to="/" />} */}
+              <Nft />
             </Route>
             <Route exact path="/chart">
-              {auth ? <Chart /> : <Redirect to="/" />}
+              {/* {auth ? <Chart /> : <Redirect to="/" />} */}
+              <Chart />
             </Route>
             <Route exact path="/cryptocurrencies">
-              {auth ? <Cryptocurrencies /> : <Redirect to="/" />}
+              {/* {auth ? <Cryptocurrencies /> : <Redirect to="/" />} */}
+              <Cryptocurrencies />
             </Route>
             <Route exact path="/crypto/:coinId">
-              {auth ? <CryptoDetails /> : <Redirect to="/" />}
+              {/* {auth ? <CryptoDetails /> : <Redirect to="/" />} */}
+              <CryptoDetails />
             </Route>
             <Route exact path="/news">
-              {auth ? <News /> : <Redirect to="/" />}
+              {/* {auth ? <News /> : <Redirect to="/" />} */}
+              <News />
             </Route>
-            <Route exact path="/signup">
+            {/* <Route exact path="/signup">
               <SignUp />
-            </Route>
+            </Route> */}
           </Switch>
         </div>
       </Layout>
@@ -79,6 +91,6 @@ export default function App() {
       </div>
     </div>
     </div>
-    </AuthContextProvider>
+    // </AuthContextProvider>
   );
 }

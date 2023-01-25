@@ -70,10 +70,11 @@ import 'antd/dist/antd.css';
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
+
 root.render(
   <Router>
     <Provider store={store}>
-      <App />
+      <App/>
     </Provider>
   </Router>
 );

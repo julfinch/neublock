@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import millify from 'millify';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Card, Row, Col, Input } from 'antd';
 import { BankOutlined, SlidersOutlined, CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import { Sparklines, SparklinesLine } from 'react-sparklines';
@@ -10,12 +10,21 @@ import { useGetCryptosQuery } from '../services/cryptoApi';
 import Loader from './Loader';
 
 const Cryptocurrencies = ({ simplified }) => {
+  const history = useHistory();
+
+  const auth = localStorage.getItem('token');
+  // console.log('auth', auth);
+  
+  if (!auth) {
+    history.push("/login");
+  }
+
   const { width } = useWindowSize();
   const count = simplified ? 12 : 100;
   const { data: cryptosList, isFetching } = useGetCryptosQuery(count);
   const [cryptos, setCryptos] = useState();
   const [searchTerm, setSearchTerm] = useState('');
-  console.log(cryptosList);
+  // console.log(cryptosList);
   useEffect(() => {
     setCryptos(cryptosList?.data?.coins);
 

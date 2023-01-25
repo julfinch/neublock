@@ -3,7 +3,7 @@ import millify from 'millify';
 import { Col, Row, Input, Tabs,Divider, Layout, Typography, Card, Select, Button, Image } from 'antd';
 import { PlayCircleOutlined, FormOutlined } from '@ant-design/icons';
 import { SiDiscord, SiTwitter } from 'react-icons/si';
-import { BsGlobe, BsFillPersonCheckFill, BsCardImage, BsPiggyBank } from 'react-icons/bs';
+import { BsGlobe } from 'react-icons/bs';
 import na from "../images/NA.jpg";
 import nft_heading_bg from "../images/home_bg2.jpg";
 import {  openseaSlugs } from "../images/dummy";
@@ -11,11 +11,22 @@ import Loader from './Loader';
 import { useGetNftsQuery,useGetSlugAssetsQuery, useGetSlugsQuery, useGetCollectionsQuery } from '../services/nftApi';
 import { useGetWebitQuery } from '../services/webitApi';
 import useWindowSize from "../hooks/useWindowSize";
+import { useHistory } from "react-router-dom";
+
 
 const { Header, Content } = Layout;
 const { Search } = Input;
 
 const Nft = () => {
+  const history = useHistory();
+
+  const auth = localStorage.getItem('token');
+  // console.log('auth', auth);
+  
+  if (!auth) {
+    history.push("/login");
+  }
+
   const { width } = useWindowSize();
     const { data: openseaList, isFetching } = useGetNftsQuery();
     const [opensea, setOpensea] = useState();
@@ -42,8 +53,6 @@ const Nft = () => {
         setOpensea(openseaList?.assets);;
       }, [openseaList]);
     
-      
-
     if (isFetching) return <Loader />;
   return (
       <Layout className="homepage-container" style={{minHeight: '100vh',}}>

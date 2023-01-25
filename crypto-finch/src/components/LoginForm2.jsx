@@ -16,6 +16,7 @@ import * as yup from "yup";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../app/state";
+import { useSelector } from "react-redux";
 import Dropzone from "react-dropzone";
 
 const { Title } = Typography;
@@ -68,7 +69,7 @@ const LoginForm = () => {
             data
         );
             const { url } = uploadRes.data;
-            console.log('Image result', url)
+            // console.log('Image result', url)
             const registerValues = {
                 firstName,
                 lastName,
@@ -77,7 +78,7 @@ const LoginForm = () => {
                 picturePath: url,
             };
 
-            console.log('Form Data',registerValues);
+            // console.log('Form Data',registerValues);
             // const savedUserResponse = await fetch(
             // "http://localhost:3001/auth/register",
             // {
@@ -87,7 +88,7 @@ const LoginForm = () => {
             // );
             axios.post('https://neublock-backend.onrender.com/auth/register', registerValues)
                 .then(response => {
-                    console.log("Reg response", response);
+                    // console.log("Reg response", response);
                     const savedUser = response.data;
                     notification.success({
                         message: 'Success!',
@@ -98,7 +99,7 @@ const LoginForm = () => {
                     }
                     })
                 .catch(error => {
-                    console.log(error);
+                    // console.log(error);
                     notification.error({
                         message: '',
                         description: 'Oops! There was an error.',
@@ -106,7 +107,7 @@ const LoginForm = () => {
                 });
         
         } catch (err) {
-            console.log(err);
+            // console.log(err);
             notification.error({
                 message: '',
                 description: 'Oops! There was an error.',
@@ -115,7 +116,7 @@ const LoginForm = () => {
         
     };
 
-    const login = async (e) => {
+    const login = async () => {
     
         const loginUser = {
             email,
@@ -128,27 +129,41 @@ const LoginForm = () => {
         });
         const loggedIn = await loggedInResponse.json();
 
+        if (loggedIn.msg) {
+            notification.info({
+            message: loggedIn.msg,
+            description: '',
+            });
+        }
+            
+        
         if (loggedIn) {
             localStorage.setItem('user', JSON.stringify(loggedIn.user))
             localStorage.setItem('token', loggedIn.token)
-            console.log('loggedIn', loggedIn);
-            console.log('loggedIn user firstName', loggedIn.user.firstName);
-            console.log('user firstName', JSON.parse(localStorage.getItem('user')));
+            // console.log('loggedIn', loggedIn);
+            // console.log('loggedIn user firstName', loggedIn.user.firstName);
+            // console.log('user firstName', JSON.parse(localStorage.getItem('user')));
 
-        // dispatch(
-        //     setLogin({
-        //         user: loggedIn.user,
-        //         token: loggedIn.token,
-        //     })
-        // );
+            dispatch(
+                setLogin({
+                    user: loggedIn.user,
+                    token: loggedIn.token,
+                })
+            );
             history.push("/dashboard");
         }
-        history.push("/dashboard");
 
     };
 
-    const handleFormSubmit = async (e) => {
-        if (isLogin) await login(e);
+    // const isAuth = Boolean(useSelector((state) => state.isLoggedIn));
+    // console.log("state isAuth", isAuth)
+    // const user = useSelector((state) => state.user);
+    // console.log("state user", user)
+    // const token = useSelector((state) => state.token);
+    // console.log("state token", token)
+
+    const handleFormSubmit = async () => {
+        if (isLogin) await login();
         if (isRegister) await register();
     };
 
