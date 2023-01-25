@@ -19,6 +19,8 @@ import { setLogout } from "../app/state";
 import icon from "../images/logo.jpg";
 import card from "../images/card1.png";
 
+
+
 const Navbar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -81,26 +83,26 @@ const Navbar = () => {
       </div>
 
       {activeMenu && (
-        <Menu theme="dark">
-          <Menu.Item icon={<HomeOutlined />}>
+        <Menu theme="dark" defaultSelectedKeys={['1']}>
+          <Menu.Item icon={<HomeOutlined />} key={'1'}>
             <Link to="/dashboard">Home</Link>
           </Menu.Item>
-          <Menu.Item icon={<GlobalOutlined />}>
+          <Menu.Item icon={<GlobalOutlined />} key={'2'}>
             <Link to="/global">Global</Link>
           </Menu.Item>
-          <Menu.Item icon={<DeploymentUnitOutlined />}>
+          <Menu.Item icon={<DeploymentUnitOutlined />} key={'3'}>
             <Link to="/nft">NFTs</Link>
           </Menu.Item>
-          <Menu.Item icon={<MoneyCollectOutlined />}>
+          <Menu.Item icon={<MoneyCollectOutlined />} key={'4'}>
             <Link to="/cryptocurrencies">Cryptocurrencies</Link>
           </Menu.Item>
-          <Menu.Item icon={<FundOutlined />}>
+          <Menu.Item icon={<FundOutlined />} key={'5'}>
             <Link to="/chart">Chart</Link>
           </Menu.Item>
-          <Menu.Item icon={<BulbOutlined />}>
+          <Menu.Item icon={<BulbOutlined />} key={'6'}>
             <Link to="/news">News</Link>
           </Menu.Item>
-          <Menu.Item icon={<LogoutOutlined />} onClick={handleLogout}>
+          <Menu.Item icon={<LogoutOutlined />} key={'7'} onClick={handleLogout}>
             Log Out
           </Menu.Item>
           {/*CARD */}

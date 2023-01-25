@@ -52,22 +52,22 @@ const data = [
 
 const Homepage = () => {
   const history = useHistory();
-  const isAuth = Boolean(useSelector((state) => state.login));
-  console.log("state isAuth", isAuth)
-  const stateuser = useSelector((state) => state.user);
-  console.log("state user", stateuser)
-  const token = useSelector((state) => state.token);
-  console.log("state token", token)
+  // const isAuth = Boolean(useSelector((state) => state.login));
+  // console.log("state isAuth", isAuth)
+  // const stateuser = useSelector((state) => state.user);
+  // console.log("state user", stateuser)
+  // const token = useSelector((state) => state.token);
+  // console.log("state token", token)
 
   const auth = localStorage.getItem('token');
-  console.log('auth', auth);
+  // console.log('auth', auth);
 
   if (!auth || auth === 'undefined') {
     history.push("/login");
   }
 
   const user = JSON.parse(localStorage.getItem('user'));
-  console.log('user', user);
+  // console.log('user', user);
 
   const { width } = useWindowSize();
   const [openSettings, setOpenSettings] = useState(false);
@@ -263,7 +263,7 @@ const Homepage = () => {
           <Row className="sidebar-profile">
             <Col span={24} className="sidebar-user-right" style={{ position: 'relative'}}>
               <Image src={avatar_bg} style={{zIndex: '10', width: 246}}/>
-              <Image src={user.picturePath} style={{ zIndex: '100', position: 'absolute', width: 125, left: '-186px', top: '-64px' , borderRadius:'50%'}} />
+              <Image src={user.picturePath} style={{ zIndex: '100', position: 'absolute', width: 125, height: 125, left: '-186px', top: '-64px' , borderRadius:'50%'}} />
               <Meta className="sidebar-profile-name" title={fullName} description={user.email} style={{ textAlign: 'center', color: '#fff', position: 'absolute', bottom: '-1px'}}/>
             </Col>
           </Row>               

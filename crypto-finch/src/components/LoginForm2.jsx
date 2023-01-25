@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { LockOutlined, UserOutlined, UploadOutlined } from '@ant-design/icons';
 import axios from "axios";
+import { Spin } from 'antd';
 import {
     Button,
     Col,
@@ -55,10 +56,10 @@ const LoginForm = () => {
     const [lastName, setLastName] = useState(null);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
-
-
+    const [loading, setLoading] = useState(false);
 
     const register = async () => {
+        setLoading(true);
         const data = new FormData();
         data.append("file", file);
         data.append("upload_preset", "neublock");
@@ -112,12 +113,14 @@ const LoginForm = () => {
                 message: '',
                 description: 'Oops! There was an error.',
             });
+        } finally {
+            setLoading(false);
         }
         
     };
 
     const login = async () => {
-    
+        setLoading(true);
         const loginUser = {
             email,
             password,
@@ -128,7 +131,7 @@ const LoginForm = () => {
         body: JSON.stringify(loginUser),
         });
         const loggedIn = await loggedInResponse.json();
-
+        setLoading(false);
         if (loggedIn.msg) {
             notification.info({
             message: loggedIn.msg,
@@ -337,7 +340,7 @@ const LoginForm = () => {
                     <Button htmlType="button" onClick={onReset}>
                         Reset
                     </Button>
-                    
+                    {loading && <Spin style={{marginLeft: "20px"}}/>} 
                     <Title 
                         level={5} 
                         style={{ cursor: 'pointer'}} 
@@ -350,6 +353,7 @@ const LoginForm = () => {
                         : "Already have an account? Login here."}
                     </Title>
                 </Form.Item>
+                
             </div>
         </Form>
     );

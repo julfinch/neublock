@@ -1174,6 +1174,9 @@ width: 70%;
 .login-form .ant-input-password-icon.anticon {
   color: var(--text-primary);
 }
+.login-form-spin .ant-spin .ant-spin-dot {
+  color: #fff !important;
+}
 /* .login-form .ant-input-affix-wrapper > input.ant-input {
   border: 1px solid var(--text-primary);
 } */
