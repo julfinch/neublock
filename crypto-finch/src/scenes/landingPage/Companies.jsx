@@ -17,9 +17,9 @@ const Companies = () => {
       <Layout className="landing-companies-container">
         <div className='landing-companies-logos'>
           {logos.map((logo, index) => (
-            <div key={index}>
-              <Image  width={50} key={index} src={logo.icon} preview={false}/>
-              <Text style={{marginLeft: '10px'}}>{logo.title}</Text>
+            <div key={index} className='landing-companies-company'>
+              <Image className='landing-companies-icon'  width={50} key={index} src={logo.icon} preview={false}/>
+              <Text className='landing-companies-text'>{logo.title}</Text>
             </div>
           ))}
         </div>

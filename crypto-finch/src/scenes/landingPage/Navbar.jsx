@@ -20,13 +20,14 @@ const Navbar = () => {
         <div className="landing-nav">
             <Link to="/">
                 <div className="landing-nav-logo">
-                  { pathname === "/login" ? <></> : 
+                  
                     <Image
                       width={50}
                       src={logo}
                       preview={false}
-                    />}
-                    <Title level={2} style={{marginLeft: '10px'}} className="landing-footer-title">NeuBlock</Title>
+                      className="landing-nav-image"
+                    />
+                    <Title level={2} className="landing-hero-title">NeuBlock</Title>
                 </div>
             </Link>
           <div className="landing-nav-item">

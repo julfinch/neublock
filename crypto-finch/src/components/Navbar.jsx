@@ -37,9 +37,9 @@ const Navbar = () => {
   const [screenSize, setScreenSize] = useState(undefined);
   const { pathname } = useLocation();
 
-  // if (pathname === "/" || pathname === "/login") {
-  //   return <></>
-  // }
+  if (pathname === "/" || pathname === "/login") {
+    return <></>
+  }
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);

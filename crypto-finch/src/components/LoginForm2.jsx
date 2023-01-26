@@ -340,7 +340,7 @@ const LoginForm = () => {
                     <Button htmlType="button" onClick={onReset}>
                         Reset
                     </Button>
-                    {loading && <Spin style={{marginLeft: "20 px"}}/>} 
+                    {loading && <Spin className="login-form-spin"/>} 
                     <Title 
                         level={5} 
                         style={{ cursor: 'pointer'}} 

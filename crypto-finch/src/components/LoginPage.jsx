@@ -9,10 +9,10 @@ const { Title } = Typography;
 const LoginPage = () => {
     
     return (
-        <Layout className="login-container" style={{minHeight: '100vh',}}>
+        <Layout className="login-container">
             <Navbar/>
-            <Row style={{minHeight: 'calc(100vh - 120px)', display: 'flex', alignItems: 'center', }}>
-                <Col span={12} offset={6} className="login-form-container">
+            <Row style={{minHeight: 'calc(100vh - 120px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Col xxl={9} xl={9} lg={13} md={13} sm={24}  className="login-form-container">
                     <Layout  className="login-form-layout">
                         <Header className="login-form-header">
                             <Image
@@ -33,9 +33,6 @@ const LoginPage = () => {
                     </Layout>
                 </Col>
             </Row>
-            <div className="landing-hero-ellipse1"></div>
-            <div className="landing-hero-ellipse2"></div>
-            <div className="landing-hero-ellipse3"></div>
         </Layout>
     );
 };

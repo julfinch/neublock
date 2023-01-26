@@ -14,9 +14,9 @@ const Footer = () => {
     <>
       <Layout className="landing-footer-container">
         <Row style={{ margin: '70px 0 100px'}}>
-          <Col flex={2}>
+          <Col flex={2} className="landing-footer-row1-col1">
             <Title level={1} className="landing-footer-title">NeuBlock</Title>
-            <Paragraph style={{display: 'flex', flexWrap: 'no-wrap'}}> The largest NFT Marketplace. <br/> Unique and authentic digital creations.<br/> Made possible by blockchain technology.</Paragraph>
+            <Paragraph className="landing-footer-paragraph"> The largest NFT Marketplace. <br/> Unique and authentic digital creations.<br/> Made possible by blockchain technology.</Paragraph>
             <div className="landing-footer-socials">
                 {icons.map((icon, index) => (
                 <div key={index}>

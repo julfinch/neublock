@@ -12,29 +12,29 @@ const Hero = () => {
         
         <Navbar/>
 
-        <Row>
-          <Col className="landing-hero-grid" xs={12} sm={11} md={11} lg={11} xl={10} style={{ display: 'flex',}}>
+        <Row >
+          <Col className="landing-hero-grid1" xs={24} sm={24} md={11} lg={11} xl={10} style={{ display: 'flex',}}>
             <div className="landing-hero-content">
-              <Text>THE LARGEST NFT MARKETPLACE</Text>
-              <Text style={{ fontSize: 'clamp(1rem, 4.5vw, 3.7rem)', fontWeight: 'bold'}}>DISCOVER RARE</Text>
-              <Text style={{ fontSize: 'clamp(1rem, 4.5vw, 3.7rem)', fontWeight: 'bold'}}>MONKEY NFTS</Text>
-              <Text>The world's largest marketplace for rare collections of non-fungible tokens.</Text>
+              <Text className="landing-hero-content-1">THE LARGEST NFT MARKETPLACE</Text>
+              <Text className="landing-hero-content-2">DISCOVER RARE</Text>
+              <Text className="landing-hero-content-2">MONKEY NFTS</Text>
+              <Text className="landing-hero-content-3">The world's largest marketplace for rare collections of non-fungible tokens.</Text>
               
               <button className="landing-hero-connect">
                 Connect Wallet
               </button>
             </div>
           </Col>
-          <Col className="landing-hero-grid" xs={0} sm={2} md={2} lg={0} xl={4}>
+          <Col className="landing-hero-grid2" xs={0} sm={0} md={2} lg={0} xl={4}>
             
           </Col>
-          <Col className="landing-hero-grid" xs={12} sm={11} md={11} lg={10} xl={10}>
+          <Col className="landing-hero-grid3" xs={24} sm={24} md={11} lg={10} xl={10}>
             <Image
                 width={550}
                 height={550}
                 src={card}
                 preview={false}
-                style={{ marginLeft: '-50px'}}
+                className="landing-hero-image"
               />
           </Col>
         </Row>
