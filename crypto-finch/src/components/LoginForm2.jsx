@@ -76,7 +76,7 @@ const LoginForm = () => {
                 lastName,
                 email,
                 password,
-                picturePath: url,
+                picturePath: url || 'https://res.cloudinary.com/dwxdztigp/image/upload/v1674659921/neublock/yro4ihczj4vnoxc2h4yn.jpg',
             };
 
             // console.log('Form Data',registerValues);
@@ -340,7 +340,7 @@ const LoginForm = () => {
                     <Button htmlType="button" onClick={onReset}>
                         Reset
                     </Button>
-                    {loading && <Spin style={{marginLeft: "20px"}}/>} 
+                    {loading && <Spin style={{marginLeft: "20 px"}}/>} 
                     <Title 
                         level={5} 
                         style={{ cursor: 'pointer'}} 
