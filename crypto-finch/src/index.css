@@ -1149,9 +1149,9 @@ width: 70%;
   flex-direction: column;  
   border-radius: 20px;
 }
-.login-form-spin{
-  margin-left: 20px;
-}
+/* .login-form-spin{
+  margin-left: 20px !important;
+} */
 .login-form > input{
   margin-bottom: 10px;
   width: 100%;
@@ -1182,8 +1182,13 @@ width: 70%;
 /* .login-form .ant-input-affix-wrapper > input.ant-input {
   border: 1px solid var(--text-primary);
 } */
-.login-form-button{
+.login-form-button1{
   margin: 20px 20px 20px 0px;
+  width: 70px;
+}
+.login-form-button2{
+  margin: 20px 20px 20px 0px;
+  width: 70px;
 }
 .login-form-logo{
   position: absolute;
@@ -1228,9 +1233,9 @@ width: 70%;
     height: 100vh;
     margin-bottom: -90px;
   }
-  .login-form-spin{
+  /* .login-form-spin{
     margin-left: 20px !important;
-  }
+  } */
   .login-form-text{
     font-size: 14px !important;
   }

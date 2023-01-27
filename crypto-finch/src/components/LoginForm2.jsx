@@ -334,13 +334,19 @@ const LoginForm = () => {
                     value={password}
                     /> */}
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" className="login-form-button">
+                {loading ? 
+                    <Button htmlType="submit" className="login-form-button1">
+                    <Spin className="login-form-spin"/>
+                    </Button>
+                    :
+                    <Button type="primary" htmlType="submit" className="login-form-button2">
                     {isLogin ? "LOGIN" : "REGISTER"}
                     </Button>
+                }
                     <Button htmlType="button" onClick={onReset}>
                         Reset
                     </Button>
-                    {loading && <Spin className="login-form-spin"/>} 
+                 
                     <Title 
                         level={5} 
                         style={{ cursor: 'pointer'}} 
