@@ -60,7 +60,7 @@ const Nft = () => {
         <Layout>
             <Header className="header-container">
                 <Row >
-                    <Col span={10} offset={7}>
+                    <Col xl={10} lg={10} sm={24} xs={24} offset={width < 500 ? 0 : 7} style={{ padding: '0 20px'}}>
                         <Search
                             placeholder="Search any NFTs..."
                             allowClear
@@ -95,9 +95,9 @@ const Nft = () => {
                   <img src={nft_heading_bg} alt="header background" className="main-heading-card-bg"/>
                 </Card>
 
-                    <Row gutter={[24, 24]}>
+                    <Row gutter={width < 500 ? [27, 27] : [24, 24]}>
                       {opensea?.map((opensea) => (
-                      <Col xl={4} lg={6} key={opensea.id}>
+                      <Col xl={4} lg={6} sm={24} xs={24} key={opensea.id}>
                         <Card 
                         className="my-nft-collection" 
                         hoverable 
@@ -131,7 +131,7 @@ const Nft = () => {
                 
                   <Tabs.TabPane tab="Discover Collections" key="2">
                     <Row gutter={[24, 24]}>
-                      <Col span={24} offset={14} >
+                      <Col xl={24} sm={24} xs={24} offset={width < 500 ? 0 : 14} >
                         <Select
                           showSearch
                           style={{width: width > 1100 ? '420px' : '320px'}}
@@ -147,12 +147,12 @@ const Nft = () => {
                       </Col>
 
                       {/* MAIN - HEADER CARD */}
-                        <div style={{position: 'relative', height: '300px', width: '100%',}}>
-                        <Card className="nft-discover-heading-card" cover={<img alt="example" src={nftCollections?.collection.banner_image_url} style={{height: '100%'}}/>} >
-                        </Card>
-                        <Image width={200} src={nftCollections?.collection.image_url} style={{position: 'absolute', bottom: '0', left: '40px', border: '8px solid #fff', borderRadius: '15px'}}/>
+                        <div className="nft-discover-heading-wrapper">
+                          <Card className="nft-discover-heading-card" cover={<img alt="example" src={nftCollections?.collection.banner_image_url} style={{height: '100%'}}/>} >
+                          </Card>
+                          <Image className="nft-discover-heading-img" width={200} src={nftCollections?.collection.image_url}/>
                         </div>
-                        <div style={{padding: '40px',}}>
+                        <div className="nft-discover-desc-wrapper">
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%'}}>
                           <Typography.Title level={2} >{nftCollections?.collection.name}</Typography.Title>
                           <div>
@@ -164,38 +164,38 @@ const Nft = () => {
                           <p>{nftCollections?.collection.description}</p> 
 
                           <Card style={{background: 'transparent', border: '3px solid cyan'}}>
-                          <Row gutter={[16, 16]} className="nft-collection-stats">
-                            <Col span={4}>
+                          <Row gutter={width < 500 ? [26, 6] : [16, 16]} className="nft-collection-stats">
+                            <Col xl={4} lg={4} sm={8} xs={8}>
                               <div> 
                                 <p>{nftCollections?.collection.stats.floor_price} <img style={{width: 15}} src={nftCollections?.collection.payment_tokens[0].image_url} /></p>                                
                                 <p>floor price</p>
                               </div>
                             </Col>
-                            <Col span={4}>
+                            <Col xl={4} lg={4} sm={8} xs={8}>
                               <div> 
                                 <p>{millify(nftCollections?.collection.stats.total_volume)} <img style={{width: 15}} src={nftCollections?.collection.payment_tokens[0].image_url}  /></p>                                 
                                 <p>volume</p>
                               </div>
                             </Col>
-                            <Col span={4}>
+                            <Col xl={4} lg={4} sm={8} xs={8}>
                               <div> 
                                 <p style={{padding: '12px 0'}}>{millify(nftCollections?.collection.stats.market_cap)} </p>                                 
                                 <p>market cap</p>
                               </div>
                             </Col>
-                            <Col span={4}>
+                            <Col xl={4} lg={4} sm={8} xs={8}>
                               <div> 
                               <p>{millify(nftCollections?.collection.stats.average_price)} <img style={{width: 15}} src={nftCollections?.collection.payment_tokens[0].image_url}  /></p>                                 
                                 <p>avg price</p>
                               </div>
                             </Col>
-                            <Col span={4}>
+                            <Col xl={4} lg={4} sm={8} xs={8}>
                               <div> 
                               <p style={{padding: '12px 0'}}>{nftCollections?.collection.stats.total_supply} </p>                                 
                                 <p>items</p>
                               </div>
                             </Col>
-                            <Col span={4}>
+                            <Col xl={4} lg={4} sm={8} xs={8}>
                               <div> 
                               <p style={{padding: '12px 0'}}>{nftCollections?.collection.stats.num_owners}</p>                                 
                                 <p>unq owners</p>

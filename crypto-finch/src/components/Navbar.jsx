@@ -15,6 +15,7 @@ import {
 } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { setLogout } from "../app/state";
+import useWindowSize from "../hooks/useWindowSize";
 
 import icon from "../images/logo.jpg";
 import card from "../images/card1.png";
@@ -24,6 +25,7 @@ import card from "../images/card1.png";
 const Navbar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { width } = useWindowSize();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -45,9 +47,9 @@ const Navbar = () => {
   //   }
   // }, [third])
   
-  if (pathname === "/" || pathname === "/login") {
-    return <></>
-  }
+  // if (pathname === "/" || pathname === "/login") {
+  //   return <></>
+  // }
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
@@ -68,7 +70,11 @@ const Navbar = () => {
   }, [screenSize]);
 
   return (
+    <>
+    {width < 500 && pathname === "/login" ?
+     <></> :
     <div className="nav-container circles" style={{ zIndex: "1000" }}>
+      
       <div className="logo-container">
         <div
           style={{
@@ -79,16 +85,17 @@ const Navbar = () => {
         >
           <Avatar src={icon} size="medium" style={{ width: 42 }} />
           <Typography.Title level={2} className="logo">
-            <Link to="/">NeuBlock</Link>
+            <Link to="/" className="logo">NeuBlock</Link>
           </Typography.Title>
         </div>
         <Button
           className="menu-control-container"
           onClick={() => setActiveMenu(!activeMenu)}
         >
-          <MenuOutlined />
+          {activeMenu ? <CloseOutlined /> : <MenuOutlined />}
         </Button>
       </div>
+      
 
       {activeMenu && (
         <Menu theme="dark" defaultSelectedKeys={['1']}>
@@ -116,7 +123,6 @@ const Navbar = () => {
           {/*CARD */}
           <Card
             className="nav-ads-card"
-            style={{ width: "185px", height: "180px", marginTop: "50px" }}
           >
             <CloseOutlined style={{ marginBottom: "18px" }} />
             <Typography.Title level={4} className="nav-card-title-1">
@@ -137,7 +143,11 @@ const Navbar = () => {
         </Menu>
       )}
     </div>
-  );
+  
+  
+}
+</>
+);
 };
 
 export default Navbar;

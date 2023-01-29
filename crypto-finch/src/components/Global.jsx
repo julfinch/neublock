@@ -7,10 +7,19 @@ import { useGetCryptosQuery } from '../services/cryptoApi';
 import Cryptocurrencies from './Cryptocurrencies';
 import News from './News';
 import Loader from './Loader';
+import { useSelector } from "react-redux";
+
 
 const { Title } = Typography;
 
 const GlobalPage = () => {
+  const isAuth = Boolean(useSelector((state) => state.login));
+  console.log("state isAuth", isAuth)
+  const stateuser = useSelector((state) => state.user);
+  console.log("state user", stateuser)
+  const token = useSelector((state) => state.token);
+  console.log("state token", token)
+
     const history = useHistory();
 
   const auth = localStorage.getItem('token');
@@ -30,12 +39,12 @@ const GlobalPage = () => {
       <Title level={3} className="heading">Global Crypto Stats</Title>
       <Card className="global-heading-card">
         <Row gutter={[32, 32]}>
-          <Col span={8}><Statistic className="global-heading-text" title="Total Cryptocurrencies" value={globalStats?.total} /></Col>
-          <Col span={12}><Statistic title="Total Exchanges" value={millify(globalStats?.totalExchanges)} /></Col>
-          <Col span={8}><Statistic title="Total Market Cap:" value={`$${millify(globalStats?.totalMarketCap)}`} /></Col>
-          <Col span={12}><Statistic title="Total 24h Volume" value={`$${millify(globalStats?.total24hVolume)}`} /></Col>
-          <Col span={8}><Statistic title="Total Cryptocurrencies" value={globalStats?.total} /></Col>
-          <Col span={12}><Statistic title="Total Markets" value={millify(globalStats?.totalMarkets)} /></Col>
+          <Col sm={12} xs={12} xl={8}><Statistic className="global-heading-text" title="Total Cryptocurrencies" value={globalStats?.total} /></Col>
+          <Col sm={12} xs={12} xl={12}><Statistic title="Total Exchanges" value={millify(globalStats?.totalExchanges)} /></Col>
+          <Col sm={12} xs={12} xl={8}><Statistic title="Total Market Cap:" value={`$${millify(globalStats?.totalMarketCap)}`} /></Col>
+          <Col sm={12} xs={12} xl={12}><Statistic title="Total 24h Volume" value={`$${millify(globalStats?.total24hVolume)}`} /></Col>
+          <Col sm={12} xs={12} xl={8}><Statistic title="Total Cryptocurrencies" value={globalStats?.total} /></Col>
+          <Col sm={12} xs={12} xl={12}><Statistic title="Total Markets" value={millify(globalStats?.totalMarkets)} /></Col>
         </Row>
       </Card>
       <div className="home-heading-container">
@@ -48,7 +57,7 @@ const GlobalPage = () => {
       
       <div className="home-heading-container">
         <Title level={3} className="home-title">Latest Crypto News</Title>
-        <Title level={5}><Link to="/news">Show more</Link></Title>
+        <Title level={5} className="show-more"><Link to="/news">Show more</Link></Title>
       </div>
       <div className="global-components-container">
         <News simplified />

@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import { Col, Row, Badge, Drawer, Avatar, List, Input, Image,Tabs, Layout, Typography, Card, Button } from 'antd';
-import { NotificationOutlined, BarChartOutlined, VerticalAlignTopOutlined, VerticalAlignBottomOutlined, SettingOutlined, MessageOutlined, CreditCardOutlined } from '@ant-design/icons';
+import { 
+  NotificationOutlined, 
+  BarChartOutlined, 
+  VerticalAlignTopOutlined, 
+  VerticalAlignBottomOutlined, 
+  SettingOutlined, 
+  MessageOutlined, 
+  CreditCardOutlined,
+  CloseOutlined,
+} from '@ant-design/icons';
 import avatar_bg from "../images/avatar_bg.svg";
 import avatar_pic from "../images/avatar_pic.png";
 import heading_bg from "../images/header_bg2.jpg";
@@ -52,12 +61,12 @@ const data = [
 
 const Homepage = () => {
   const history = useHistory();
-  // const isAuth = Boolean(useSelector((state) => state.login));
-  // console.log("state isAuth", isAuth)
-  // const stateuser = useSelector((state) => state.user);
-  // console.log("state user", stateuser)
-  // const token = useSelector((state) => state.token);
-  // console.log("state token", token)
+  const isAuth = Boolean(useSelector((state) => state.login));
+  console.log("state isAuth", isAuth)
+  const stateuser = useSelector((state) => state.user);
+  console.log("state user", stateuser)
+  const token = useSelector((state) => state.token);
+  console.log("state token", token)
 
   const auth = localStorage.getItem('token');
   // console.log('auth', auth);
@@ -107,19 +116,37 @@ const Homepage = () => {
         {/* MAIN */}
         <Layout>
           <Header className="header-container">
-            <Row >
-                <Col span={4} style={{height: '45px', display: 'grid', placeContent: 'center', padding: '0px'}}>
+            <Row style={{ display: 'flex', justifyContent: 'space-between'}}>
+                <Col xl={4} lg={5} sm={5} xs={6} style={{height: '45px', display: 'grid', placeContent: 'center', padding: '0px'}}>
                   <p style={{color: '#fff', fontSize: '19px', lineHeight: '0.1'}}>Hi, {user.firstName}!</p>
                 </Col>
-                <Col span={8} offset={width > 1100 ? 8 : 4}>
-                  <Search
-                    placeholder="Search cryptocurrency, auction, NFTs and more..."
-                    allowClear
-                    size="small"
-                    style={{
-                      width: 400,
-                    }}
-                  />
+                <Col xl={13} lg={16} sm={6} xs={10}>
+                  {width < 500 ? 
+                    <Row className="sidebar-user-mobile" justify="space-between">
+                      <Col span={2} onClick={showNotifications}  >              
+                        <Badge dot><NotificationOutlined className="sidebar-user-badge"/></Badge>
+                      </Col>
+                      <Col span={2} onClick={showChat} >              
+                        <Badge dot><MessageOutlined className="sidebar-user-badge"/></Badge>
+                      </Col>
+                      <Col span={2} onClick={showCredits}>              
+                        <Badge ><CreditCardOutlined className="sidebar-user-badge"/></Badge>
+                      </Col>
+                      <Col span={2} onClick={showSettings}>              
+                        <Badge ><SettingOutlined className="sidebar-user-badge"/></Badge>
+                      </Col>
+                    </Row>
+                    :
+                    <Search
+                      placeholder="Search cryptocurrency, auction, NFTs and more..."
+                      allowClear
+                      size="small"
+                      className="header-search"
+                      style={{
+                        width: 400,
+                      }}
+                    />
+                  }
                 </Col>
             </Row>
           </Header>
@@ -153,17 +180,17 @@ const Homepage = () => {
                     <Row gutter={164}>
                       {topData?.map((top) => (
                       <Col xl={4} lg={5} key={top.name}>
-                        <Card className="my-nft-collection" hoverable style={{width: 140, height: 145,}} cover={<img alt={top.name} src={top.image} style={{border: '1px solid transparent',borderRadius: '15px 15px 0 0'}}/>}>
+                        <Card className="homepage-nft-collection" hoverable style={{width: 140, height: 145,}} cover={<img alt={top.name} src={top.image} style={{border: '1px solid transparent',borderRadius: '15px 15px 0 0'}}/>}>
                         <p style={{fontWeight: '500', color: 'cyan'}}>{top.name}</p>
                         <p style={{fontWeight: '200',marginTop: '-5px'}}>Current price: <span style={{fontWeight: '500'}}>{top.price}</span></p>
                         </Card>
                       </Col>
                       ))}
                     </Row> : 
-                      <Row gutter={width > 1100 ? 164 : 3}>
+                      <Row gutter={width > 1100 ? 164 : 3} className="nft-collection-grid">
                       {topData.filter((item, index) => index < 4)?.map((top) => (
-                      <Col xl={4} lg={6} key={top.name}>
-                        <Card className="my-nft-collection" hoverable style={{width: 135, height: 145,}} cover={<img alt={top.name} src={top.image} style={{border: '1px solid transparent',borderRadius: '15px 15px 0 0'}}/>}>
+                      <Col sm={2} xl={4} lg={6} key={top.name}>
+                        <Card className="homepage-nft-collection" hoverable style={{width: 135, height: 145,}} cover={<img alt={top.name} src={top.image} style={{border: '1px solid transparent',borderRadius: '15px 15px 0 0'}}/>}>
                         <p style={{fontWeight: '500', color: 'cyan'}}>{top.name}</p>
                         <p style={{fontWeight: '200',marginTop: '-5px'}}>Current price: <span style={{fontWeight: '500'}}>{top.price}</span></p>
                         </Card>
@@ -172,10 +199,10 @@ const Homepage = () => {
                     </Row>}
                   </Tabs.TabPane>
                 <Tabs.TabPane tab="Monkies Club" key="2">
-                    <Row gutter={3}>
+                    <Row gutter={3} className="nft-collection-grid">
                       {monkiesData?.map((monkies) => (
-                      <Col span={6} key={monkies.name}>
-                        <Card className="my-nft-collection" hoverable style={{width: width > 1100 ? 141 : 135, height: 145,}} cover={<img alt={monkies.name} src={monkies.image} style={{border: '1px solid transparent',borderRadius: '15px 15px 0 0'}}/>}>
+                      <Col xl={6} key={monkies.name}>
+                        <Card className="homepage-nft-collection" hoverable style={{width: width > 1100 ? 141 : 135, height: 145,}} cover={<img alt={monkies.name} src={monkies.image} style={{border: '1px solid transparent',borderRadius: '15px 15px 0 0'}}/>}>
                         <p style={{fontWeight: '500', color: 'cyan'}}>{monkies.name}</p>
                         <p style={{fontWeight: '200',marginTop: '-5px'}}>Current price: <span style={{fontWeight: '500'}}>{monkies.price}</span></p>
                         </Card>
@@ -184,10 +211,10 @@ const Homepage = () => {
                     </Row>
                   </Tabs.TabPane>
                   <Tabs.TabPane tab="Zodiac Kingdom" key="3">
-                    <Row gutter={3}>
+                    <Row gutter={3} className="nft-collection-grid">
                       {zodiacData?.map((zodiac) => (
                       <Col span={6} key={zodiac.name}>
-                        <Card className="my-nft-collection" hoverable style={{width: width > 1100 ? 140 : 135, height: 145,}} cover={<img alt={zodiac.name} src={zodiac.image} style={{border: '1px solid transparent',borderRadius: '15px 15px 0 0'}}/>}>
+                        <Card className="homepage-nft-collection" hoverable style={{width: width > 1100 ? 140 : 135, height: 145,}} cover={<img alt={zodiac.name} src={zodiac.image} style={{border: '1px solid transparent',borderRadius: '15px 15px 0 0'}}/>}>
                         <p style={{fontWeight: '500', color: 'cyan'}}>{zodiac.name}</p>
                         <p style={{fontWeight: '200',marginTop: '-5px'}}>Current price: <span style={{fontWeight: '500'}}>{zodiac.price}</span></p>
                         </Card>
@@ -196,10 +223,10 @@ const Homepage = () => {
                     </Row>
                   </Tabs.TabPane>
                   <Tabs.TabPane tab="Wave Dawgz" key="4">
-                    <Row gutter={3}>
+                    <Row gutter={3} className="nft-collection-grid">
                         {dawgzData?.map((dawgz) => (
                         <Col span={6} key={dawgz.name}>
-                          <Card className="my-nft-collection" hoverable style={{width: width > 1100 ? 140 : 135, height: 145,}} cover={<img alt={dawgz.name} src={dawgz.image} style={{border: '1px solid transparent',borderRadius: '15px 15px 0 0'}}/>}>
+                          <Card className="homepage-nft-collection" hoverable style={{width: width > 1100 ? 140 : 135, height: 145,}} cover={<img alt={dawgz.name} src={dawgz.image} style={{border: '1px solid transparent',borderRadius: '15px 15px 0 0'}}/>}>
                           <p style={{fontWeight: '500', color: 'cyan'}}>{dawgz.name}</p>
                           <p style={{fontWeight: '200',marginTop: '-5px'}}>Current price: <span style={{fontWeight: '500'}}>{dawgz.price}</span></p>
                           </Card>
@@ -211,14 +238,14 @@ const Homepage = () => {
               </Col>
               {/* MAIN - ASSET CHARTS */}
               
-              <Row gutter={20}>
-                <Col xl={12}>
+              <Row gutter={width < 500 ? [9,24] : [34, 20]}>
+                <Col xl={12} lg={16} sm={24} xs={24}>
                   <HomeLinechart/>
                 </Col>
-                <Col xl={6} lg={6}>
+                <Col xl={6} lg={8} sm={24} xs={24}>
                   <HomeDonut/>
                 </Col>
-                <Col span={6} className="home-transactions-column">
+                <Col xl={5} lg={6} sm={24} xs={24} className="home-transactions-column">
                   <Card className="home-transactions-card" style={{width: width > 1100 ? '185px' : '140px', height: width > 1100 ? '180px' : '220px'}}>
                   <Typography.Title level={4} className="transactions-title">Recent Transactions</Typography.Title>
                     <List
@@ -305,16 +332,16 @@ const Homepage = () => {
           </Row>
         </Sider>
 
-        <Drawer title="Settings" placement="right" onClose={onCloseSettings} open={openSettings} className="drawer-settings">
+        <Drawer style={{zIndex: '10000'}} title="Settings" placement="right" onClose={onCloseSettings} open={openSettings} className="drawer-settings">
           <Settings/>
         </Drawer>
-        <Drawer title="Linked Cards" placement="right" onClose={onCloseCredits} open={openCredits} >
+        <Drawer style={{zIndex: '10000'}} title="Linked Cards" placement="right" onClose={onCloseCredits} open={openCredits} >
           <Credits/>
         </Drawer>
-        <Drawer title="Messages" placement="right" onClose={onCloseChat} open={openChat} >
+        <Drawer style={{zIndex: '10000'}} title="Messages" placement="right" onClose={onCloseChat} open={openChat} >
           <Chat/>
         </Drawer>
-        <Drawer title="Notifications" placement="right" onClose={onCloseNotifications} open={openNotifications} >
+        <Drawer style={{zIndex: '10000'}} title="Notifications" placement="right" onClose={onCloseNotifications} open={openNotifications} >
           <Notifications/>
         </Drawer>
       </Layout>

@@ -48,11 +48,11 @@ if (!auth || auth === 'undefined') {
         </div>
       
       </Row> )}
-      <Row gutter={[32, 32]} justify="space-between" className="crypto-card-container" style={{padding: !simplified ? '55px 15px 0' : '10px 15px 0'}}>
+      <Row gutter={width < 500 ? [27, 27] : [32, 32]} justify="space-between" className="crypto-card-container" style={{padding: !simplified ? '55px 15px 0' : '10px 15px 0'}}>
         {cryptos?.map((currency) => (
           <Col
             xs={24}
-            sm={12}
+            sm={24}
             lg={8}
             xl={6}
             className="crypto-card"
@@ -70,11 +70,11 @@ if (!auth || auth === 'undefined') {
                 <Sparklines data={currency.sparkline}>
                   <SparklinesLine color="cyan" />
                 </Sparklines>
-                <div style={{display: 'flex',flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: '5px',}}>
-                  <div style={{display: 'flex', flexDirection: 'column',justifyContent: 'center', alignItems: 'center', height: '60px'}}>
-                    <p style={{fontWeight: '400', fontSize: '38px',marginTop: '25px'}}>${millify(currency.price)}</p>
-                  </div>
-                  <div style={{display: 'flex', flexDirection: 'column', height: '60px'}}>
+                  <div style={{display: 'flex',flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: '5px',}}>
+                    <div className="cryptocurrencies-details-1" style={{display: 'flex', flexDirection: 'column',justifyContent: 'center', alignItems: 'center', height: '60px'}}>
+                      <p style={{fontWeight: '400', fontSize: '38px',marginTop: '25px'}}>${millify(currency.price)}</p>
+                    </div>
+                  <div className="cryptocurrencies-details-2">
                     <p style={{fontWeight: '400',lineHeight: '0.3', margin: '1px'}}><BankOutlined style={{border: '1px solid cyan', padding: '4px', borderRadius: ' 5px', color: 'cyan'}}/> {millify(currency.marketCap)}</p>
                     <p style={{fontWeight: '400',lineHeight: '0.3', margin: '1px'}}> {currency.change > 0 ? <CaretUpOutlined  style={{border: '1px solid cyan', padding: '4px', borderRadius: ' 5px', color: 'limegreen'}}/> : <CaretDownOutlined style={{border: '1px solid cyan', padding: '4px', borderRadius: ' 5px', color: 'red'}}/>} {currency.change > 0 ? (<span style={{color: 'limegreen'}}>{currency.change}%</span>) : (<span style={{color: 'red'}}>{currency.change}%</span>)}</p>
                   </div>
