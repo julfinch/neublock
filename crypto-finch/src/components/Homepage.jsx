@@ -60,13 +60,13 @@ const data = [
 ];
 
 const Homepage = () => {
-  const history = useHistory();
-  const isAuth = Boolean(useSelector((state) => state.login));
-  console.log("state isAuth", isAuth)
-  const stateuser = useSelector((state) => state.user);
-  console.log("state user", stateuser)
-  const token = useSelector((state) => state.token);
-  console.log("state token", token)
+  // const history = useHistory();
+  // const isAuth = Boolean(useSelector((state) => state.login));
+  // console.log("state isAuth", isAuth)
+  // const stateuser = useSelector((state) => state.user);
+  // console.log("state user", stateuser)
+  // const token = useSelector((state) => state.token);
+  // console.log("state token", token)
 
   const auth = localStorage.getItem('token');
   // console.log('auth', auth);

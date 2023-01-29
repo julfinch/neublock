@@ -13,12 +13,12 @@ import { useSelector } from "react-redux";
 const { Title } = Typography;
 
 const GlobalPage = () => {
-  const isAuth = Boolean(useSelector((state) => state.login));
-  console.log("state isAuth", isAuth)
-  const stateuser = useSelector((state) => state.user);
-  console.log("state user", stateuser)
-  const token = useSelector((state) => state.token);
-  console.log("state token", token)
+  // const isAuth = Boolean(useSelector((state) => state.login));
+  // console.log("state isAuth", isAuth)
+  // const stateuser = useSelector((state) => state.user);
+  // console.log("state user", stateuser)
+  // const token = useSelector((state) => state.token);
+  // console.log("state token", token)
 
     const history = useHistory();
 

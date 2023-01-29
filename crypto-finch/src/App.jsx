@@ -12,15 +12,15 @@ import { AuthContextProvider } from './context/AuthContext';
 export default function App() {
     const history = useHistory();
 
-  const isAuth = Boolean(useSelector((state) => state.token));
-  console.log("state isAuth", isAuth)
-  const user = useSelector((state) => state.user);
-  console.log("state user", user)
-  const token = useSelector((state) => state.token);
-  console.log("state token", token)
+  // const isAuth = Boolean(useSelector((state) => state.token));
+  // console.log("state isAuth", isAuth)
+  // const user = useSelector((state) => state.user);
+  // console.log("state user", user)
+  // const token = useSelector((state) => state.token);
+  // console.log("state token", token)
   
   const auth = localStorage.getItem('token');
-  console.log('auth', auth)
+  // console.log('auth', auth)
 
   return (
     // <AuthContextProvider>
