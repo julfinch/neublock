@@ -343,8 +343,8 @@ const LoginForm = () => {
                     {isLogin ? "LOGIN" : "REGISTER"}
                     </Button>
                 }
-                    <Button htmlType="button" onClick={onReset}>
-                        Reset
+                    <Button htmlType="button" onClick={onReset} className="login-form-button2">
+                        RESET
                     </Button>
                  
                     <Title 
