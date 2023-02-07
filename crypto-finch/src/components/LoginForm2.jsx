@@ -51,7 +51,7 @@ const LoginForm = () => {
     const history = useHistory();
     const isLogin = pageType === "login";
     const isRegister = pageType === "register";
-    const [file, setFile] = useState(null);
+    const [file, setFile] = useState("");
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
     const [email, setEmail] = useState(null);
@@ -60,33 +60,24 @@ const LoginForm = () => {
 
     const register = async () => {
         setLoading(true);
-        const data = new FormData();
-        data.append("file", file);
-        data.append("upload_preset", "neublock");
-        
-        try {
+        if (file) {
+          const data = new FormData();
+          data.append("file", file);
+          data.append("upload_preset", "neublock");
+      
+          try {
             const uploadRes = await axios.post(
-            "https://api.cloudinary.com/v1_1/dwxdztigp/image/upload",
-            data
-        );
+              "https://api.cloudinary.com/v1_1/dwxdztigp/image/upload",
+              data
+            );
             const { url } = uploadRes.data;
-            // console.log('Image result', url)
             const registerValues = {
-                firstName,
-                lastName,
-                email,
-                password,
-                picturePath: url || 'https://res.cloudinary.com/dwxdztigp/image/upload/v1674659921/neublock/yro4ihczj4vnoxc2h4yn.jpg',
+              firstName,
+              lastName,
+              email,
+              password,
+              picturePath: url,
             };
-
-            // console.log('Form Data',registerValues);
-            // const savedUserResponse = await fetch(
-            // "http://localhost:3001/auth/register",
-            // {
-            //     method: "POST",
-            //     body: registerValues,
-            // }
-            // );
             axios.post('https://neublock-backend.onrender.com/auth/register', registerValues)
                 .then(response => {
                     // console.log("Reg response", response);
@@ -106,18 +97,98 @@ const LoginForm = () => {
                         description: 'Oops! There was an error.',
                     });
                 });
-        
-        } catch (err) {
-            // console.log(err);
+                setLoading(false);
+          } catch (err) {
+            console.log(err);
             notification.error({
-                message: '',
-                description: 'Oops! There was an error.',
-            });
-        } finally {
-            setLoading(false);
+                        message: '',
+                        description: 'Oops! There was an error.',
+                    });
+          }
+        } else {
+          const defaultImageUrl = "https://res.cloudinary.com/dwxdztigp/image/upload/v1674659921/neublock/yro4ihczj4vnoxc2h4yn.jpg";
+          const registerValues = {
+            firstName,
+            lastName,
+            email,
+            password,
+            picturePath: defaultImageUrl,
+          };
+          axios.post('https://neublock-backend.onrender.com/auth/register', registerValues)
+                .then(response => {
+                    // console.log("Reg response", response);
+                    const savedUser = response.data;
+                    notification.success({
+                        message: 'Success!',
+                        description: 'New account successfully created',
+                    });
+                    if (savedUser) {
+                    setPageType("login");
+                    }
+                    })
+                .catch(error => {
+                    // console.log(error);
+                    notification.error({
+                        message: '',
+                        description: 'Oops! There was an error.',
+                    });
+                });
+                setLoading(false);
         }
+      };
+
+    // const register = async () => {
+    //     setLoading(true);
+    //     const data = new FormData();
+    //     data.append("file", file);
+    //     data.append("upload_preset", "neublock");
         
-    };
+    //     try {
+    //         const uploadRes = await axios.post(
+    //         "https://api.cloudinary.com/v1_1/dwxdztigp/image/upload",
+    //         data
+    //     );
+    //         const { url } = uploadRes.data;
+    //         // console.log('Image result', url)
+    //         const registerValues = {
+    //             firstName,
+    //             lastName,
+    //             email,
+    //             password,
+    //             picturePath: url || 'https://res.cloudinary.com/dwxdztigp/image/upload/v1674659921/neublock/yro4ihczj4vnoxc2h4yn.jpg',
+    //         };
+
+    //         axios.post('https://neublock-backend.onrender.com/auth/register', registerValues)
+    //             .then(response => {
+    //                 // console.log("Reg response", response);
+    //                 const savedUser = response.data;
+    //                 notification.success({
+    //                     message: 'Success!',
+    //                     description: 'New account successfully created',
+    //                 });
+    //                 if (savedUser) {
+    //                 setPageType("login");
+    //                 }
+    //                 })
+    //             .catch(error => {
+    //                 // console.log(error);
+    //                 notification.error({
+    //                     message: '',
+    //                     description: 'Oops! There was an error.',
+    //                 });
+    //             });
+        
+    //     } catch (err) {
+    //         // console.log(err);
+    //         notification.error({
+    //             message: '',
+    //             description: 'Oops! There was an error.',
+    //         });
+    //     } finally {
+    //         setLoading(false);
+    //     }
+        
+    // };
 
     const login = async () => {
         setLoading(true);
