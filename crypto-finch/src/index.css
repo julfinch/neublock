@@ -1402,7 +1402,7 @@ width: 70%;
   margin-left: 20px !important;
 } */
 .login-form > input{
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   width: 100%;
   height: 35px;
   padding: 0 7px;
@@ -1428,16 +1428,22 @@ width: 70%;
 .login-form-spin .ant-spin .ant-spin-dot {
   color: #fff !important;
 }
+
+
 /* .login-form .ant-input-affix-wrapper > input.ant-input {
   border: 1px solid var(--text-primary);
 } */
 .login-form-button1{
-  margin: 20px 20px 20px 0px;
-  width: 89px;
+  margin: 20px 20px 10px 0px;
+  width: 100%;
 }
 .login-form-button2{
-  margin: 20px 20px 20px 0px;
-  width: 89px;
+  margin: 20px 0px 10px 0px;
+  width: 30%;
+}
+.login-form-button3{
+  margin: 20px 20px 10px 0px;
+  width: 100%;
 }
 .login-form-logo{
   position: absolute;
@@ -1458,7 +1464,7 @@ width: 70%;
   justify-content: center;
 }
 .login-form-content{
-  padding: 40px 30px 20px;
+  padding: 30px 30px 0px;
 }
 .login-form-layout{
   background: rgba(255,255,255,0.2)!important;
@@ -1487,6 +1493,13 @@ width: 70%;
   } */
   .login-form-text{
     font-size: 14px !important;
+  }
+  .login-form .ant-upload-list-item-name {
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    display:inline-block !important;
+    max-width: 19ch !important;
   }
 }
 

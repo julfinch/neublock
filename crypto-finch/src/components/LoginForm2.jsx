@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { LockOutlined, UserOutlined, UploadOutlined } from '@ant-design/icons';
 import axios from "axios";
-import { Spin } from 'antd';
+import { Spin, Alert, Progress } from 'antd';
 import {
     Button,
     Col,
@@ -44,8 +44,8 @@ const layout = {
   },
 };
 
-
 const LoginForm = () => {
+    const [percent, setPercent] = useState(0)
     const [pageType, setPageType] = useState("login");
     const dispatch = useDispatch();
     const history = useHistory();
@@ -60,17 +60,22 @@ const LoginForm = () => {
 
     const register = async () => {
         setLoading(true);
+        setPercent(0);
+
         if (file) {
           const data = new FormData();
           data.append("file", file);
+          setPercent(15);
           data.append("upload_preset", "neublock");
-      
+          setPercent(30);
           try {
             const uploadRes = await axios.post(
               "https://api.cloudinary.com/v1_1/dwxdztigp/image/upload",
               data
             );
+            setPercent(60);
             const { url } = uploadRes.data;
+            setPercent(75);
             const registerValues = {
               firstName,
               lastName,
@@ -78,6 +83,7 @@ const LoginForm = () => {
               password,
               picturePath: url,
             };
+            setPercent(90);
             axios.post('https://neublock-backend.onrender.com/auth/register', registerValues)
                 .then(response => {
                     // console.log("Reg response", response);
@@ -87,6 +93,8 @@ const LoginForm = () => {
                         description: 'New account successfully created',
                     });
                     if (savedUser) {
+                    setLoading(false);
+                    setPercent(100);
                     setPageType("login");
                     }
                     })
@@ -97,7 +105,7 @@ const LoginForm = () => {
                         description: 'Oops! There was an error.',
                     });
                 });
-                setLoading(false);
+                
           } catch (err) {
             console.log(err);
             notification.error({
@@ -107,6 +115,7 @@ const LoginForm = () => {
           }
         } else {
           const defaultImageUrl = "https://res.cloudinary.com/dwxdztigp/image/upload/v1674659921/neublock/yro4ihczj4vnoxc2h4yn.jpg";
+          setLoading(true);
           const registerValues = {
             firstName,
             lastName,
@@ -253,7 +262,7 @@ const LoginForm = () => {
             form={form}
             onFinish={(e) => handleFormSubmit(e)}
             name="control-hooks"
-            style={{ maxWidth: 600 }}
+            style={{ maxWidth: 600,}}
             >
             <div className="login-form">
                 {isRegister && (
@@ -389,6 +398,15 @@ const LoginForm = () => {
                     >
                     <Input.Password />
                 </Form.Item>
+                {/* {!loading ? <Alert message="This may take time as backend is under free account." type="warning" showIcon style={{fontSize: '12px', marginTop: '5px', marginBottom: '5px'}}/> : <></>} */}
+                {!isLogin && loading ? <Progress
+                    status="active"
+                    percent={percent}
+                    strokeColor={{
+                    '0%': '#e051f1',
+                    '100%': '#1ff2f8',
+                    }}
+                /> : <Alert message="This may take time as backend is under free account." type="warning" showIcon style={{fontSize: '12px', marginTop: '5px', marginBottom: '5px'}}/>}
                 {/* <input
                     placeholder="Email"
                     name="email"
@@ -405,18 +423,20 @@ const LoginForm = () => {
                     value={password}
                     /> */}
                 <Form.Item>
+                <div style={{display: 'flex', justifyContent: 'space-between'}}>
                 {loading ? 
                     <Button htmlType="submit" className="login-form-button1">
                     <Spin className="login-form-spin"/>
                     </Button>
                     :
-                    <Button type="primary" htmlType="submit" className="login-form-button2">
+                    <Button type="primary" htmlType="submit" className="login-form-button3">
                     {isLogin ? "LOGIN" : "REGISTER"}
                     </Button>
                 }
                     <Button htmlType="button" onClick={onReset} className="login-form-button2">
                         RESET
                     </Button>
+                </div>
                  
                     <Title 
                         level={5} 
