@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  mongo:
+    image: "mongo"
+    volumes:
+      - data:/data/db
+    env_file:
+      - ./server/.env
+  server:
+    build: ./server
+    ports:
+      - '3001:3001'
+    volumes:
+      - ./server:/app
+      - ./app/node_modules
+    env_file:
+      - ./server/.env
+    depends_on:
+      - mongo
+  crypto-finch:
+    build: ./crypto-finch
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./crypto-finch/src:/app/src
+    env_file:
+      - ./.env
+    stdin_open: true
+    tty: true
+volumes:
+  data:
+  logs:
