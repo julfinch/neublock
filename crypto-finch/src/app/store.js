@@ -89,13 +89,7 @@ export default configureStore({
                 [nftApi.reducerPath]: nftApi.reducer,
                 [webitApi.reducerPath]: webitApi.reducer,
             }, 
-            middleware: (getDefaultMiddleware) =>
-            getDefaultMiddleware()
-            .concat(cryptoApi.middleware)
-            .concat(cryptoNewsApi.middleware)
-            .concat(nftApi.middleware)
-            .concat(webitApi.middleware),
-                 
+    
     // middleware: (getDefault) => getDefault()
     // .concat(cryptoApi.middleware),
   });

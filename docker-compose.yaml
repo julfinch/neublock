@@ -1,51 +1,32 @@
 version: "3.8"
 services:
-  crypto-finch:
-    build: ./crypto-finch
-    container_name: react-ui
-    ports:
-      - '3000:3000'
-    networks:
-      - neublock-network
+  mongo:
+    image: "mongo"
     volumes:
-      - ./crypto-finch/src:/app/src
+      - data:/data/db
     env_file:
-      - ./crypto-finch/.env
-    stdin_open: true
-    tty: true
-    depends_on:
-      - server
-
+      - ./server/.env
   server:
     build: ./server
-    container_name: node-api
-    restart: always
     ports:
       - '3001:3001'
-    networks:
-      - neublock-network
     volumes:
       - ./server:/app
+      - ./app/node_modules
     env_file:
       - ./server/.env
     depends_on:
       - mongo
-
-  mongo:
-    image: mongo
-    container_name: mongo-db
+  crypto-finch:
+    build: ./crypto-finch
     ports:
-      - "27017:27017"
-    networks:
-      - neublock-network
+      - '3000:3000'
     volumes:
-      - neublock_data:/data/db
+      - ./crypto-finch/src:/app/src
     env_file:
-      - ./server/.env
-networks:
-  neublock-network:
-    driver: bridge
+      - ./.env
+    stdin_open: true
+    tty: true
 volumes:
-  neublock_data:
-  web-root:
-    driver: local
+  data:
+  logs:
