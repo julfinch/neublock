@@ -102,7 +102,7 @@ app.use("/users", userRoutes);
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
 mongoose
-.connect(process.env.MONGO_URL, {
+.connect("mongodb://mongo-db/neublock", {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 })
