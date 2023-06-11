@@ -1,0 +1,7 @@
+node_modulesnode_modules
+Dockerfile
+.git
+.gitignore
+.dockerignore
+.env
+.yarn

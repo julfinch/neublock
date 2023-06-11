@@ -10,17 +10,21 @@ export const nftApi = createApi({
   reducerPath: 'nftApi',
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_REACT_APP_NFT_API_URL }),
   endpoints: (builder) => ({
+    // RANDOM NFTS IN THE WELCOME NFTS PAGE
     getNfts: builder.query({
-      query: () => createRequest(`/assets`),
+      query: () => createRequest(`/assets/`),
     }),
+    // SINGLE COLLECTION BODY 20 NFTS INSIDE DISCOVER COLLECTION
     getSlugAssets: builder.query({
-      query: ({collectionSlug}) => createRequest(`/assets?collection_slug=${collectionSlug}`),
+      query: ({collectionSlug}) => createRequest(`/assets/?collection_slug=${collectionSlug}`),
     }),
+    // COLLECTIONS SLUGS
     getSlugs: builder.query({
-      query: () => createRequest(`/collections`),
+      query: () => createRequest(`/collections/`),
     }),
+    // SINGLE COLLECTION HEADER STATS
     getCollections: builder.query({
-      query: ({collectionSlug}) => createRequest(`/collection/${collectionSlug}`),
+      query: ({collectionSlug}) => createRequest(`/collection/?collection_slug=${collectionSlug}`),
     }),
   }),
 });
