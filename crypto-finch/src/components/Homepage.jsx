@@ -1,15 +1,40 @@
-import React, { useState } from 'react';
-import { Col, Row, Badge, Drawer, Avatar, List, Input, Image,Tabs, Layout, Typography, Card, Button } from 'antd';
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
+import { CaretDownOutlined, CaretUpOutlined, FundViewOutlined  } from '@ant-design/icons';
+import { Sparklines, SparklinesLine } from 'react-sparklines';
+import { 
+  Col, 
+  Tooltip, 
+  Row, 
+  Badge,
+  Select, 
+  Drawer, 
+  Avatar, 
+  List, 
+  Input, 
+  Image,
+  Tabs, 
+  Layout, 
+  Typography, 
+  Card,
+  Table, 
+  Button, 
+  Modal,
+  Spin,
+  notification, 
+} from 'antd';
 import { 
   NotificationOutlined, 
   BarChartOutlined, 
   VerticalAlignTopOutlined, 
   VerticalAlignBottomOutlined, 
   SettingOutlined, 
+  PlusOutlined, 
   MessageOutlined, 
   CreditCardOutlined,
   CloseOutlined,
 } from '@ant-design/icons';
+import { useGetCryptosQuery, useGetCryptoDetailsQuery } from '../services/cryptoApi';
 import avatar_bg from "../images/avatar_bg.svg";
 import avatar_pic from "../images/avatar_pic.png";
 import heading_bg from "../images/header_bg2.jpg";
@@ -24,13 +49,16 @@ import Notifications from "./Notifications";
 import Chat from "./Chat";
 import { Link, useHistory } from 'react-router-dom';
 import HomeDonut from "./HomeDonut";
-import { zodiacData, dawgzData, monkiesData, assetsData, topData } from "../images/dummy";
+import { zodiacData, dawgzData, monkiesData, assetsData, topData, cryptoData, gainersList } from "../images/dummy";
 import Loader from './Loader';
+import millify from 'millify';
 const { Meta } = Card;
 const { Header, Content, Sider } = Layout;
 const { Search } = Input;
 import useWindowSize from "../hooks/useWindowSize";
 import { useSelector } from "react-redux";
+import AssetCard from './AssetCard';
+import TrendingCoinCard from './TrendingCoinCard';
 
 const data = [
   {
@@ -59,6 +87,45 @@ const data = [
   },
 ];
 
+
+const formatNumber = (value) => new Intl.NumberFormat().format(value);
+const NumericInput = (props) => {
+  const { value, onChange } = props;
+  const handleChange = (e) => {
+    const { value: inputValue } = e.target;
+    const reg = /^-?\d*(\.\d*)?$/;
+    if (reg.test(inputValue) || inputValue === '' || inputValue === '-') {
+      onChange(inputValue);
+    }
+  };
+
+  // '.' at the end or only '-' in the input box.
+  const handleBlur = () => {
+    let valueTemp = value;
+    if (value.charAt(value.length - 1) === '.' || value === '-') {
+      valueTemp = value.slice(0, -1);
+    }
+    onChange(valueTemp.replace(/0*(\d+)/, '$1'));
+  };
+  const title = value ? (
+    <span className="numeric-input-title">{value !== '-' ? formatNumber(Number(value)) : '-'}</span>
+  ) : (
+    'Input number of tokens'
+  );
+  return (
+    <Tooltip trigger={['focus']} title={title} placement="topLeft" overlayClassName="numeric-input">
+      <Input
+        {...props}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        placeholder="Input number of tokens"
+        maxLength={16}
+      />
+    </Tooltip>
+  );
+};
+
+
 const Homepage = () => {
   // const history = useHistory();
   // const isAuth = Boolean(useSelector((state) => state.login));
@@ -68,6 +135,9 @@ const Homepage = () => {
   // const token = useSelector((state) => state.token);
   // console.log("state token", token)
 
+  const { data: cryptosList, isFetching } = useGetCryptosQuery(100);
+  const [cryptos, setCryptos] = useState();
+
   const auth = localStorage.getItem('token');
   // console.log('auth', auth);
 
@@ -76,14 +146,252 @@ const Homepage = () => {
   }
 
   const user = JSON.parse(localStorage.getItem('user'));
-  // console.log('user', user);
+  const userId = user._id;
+  const email = user.email;
+  //STATES FOR ADDING ASSETS
+  const [assets, setAssets] = useState([]);
+  const [amount, setAmount] = useState('');  
+  const [price, setPrice] = useState('')
+  const [token, setToken] = useState('')
+  const [loading, setLoading] = useState(false);
+  const [loadingOverview, setLoadingOverview] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [portfolioValue, setPortfolioValue] = useState(0);
+  const [profitChange, setProfitChange] = useState(0);
+  const [watchlist, setWatchlist] = useState([]);
+  const [likedCoins, setLikedCoins] = useState([]);
+  const [gainers, setGainers] = useState([])
 
+
+  //OVERVIEW TOP 3 CRYPTOS
+  useEffect(() => {
+    setLoadingOverview(true);
+    setCryptos(cryptosList?.data?.coins);
+    setLoadingOverview(false);
+  }, [cryptosList]);
+
+  useEffect(() => {
+    const fetchWatchlist = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3001/users/liked/${email}`);
+        const { liked } = response.data;
+        setWatchlist(liked);
+
+        const filteredCoins = cryptosList?.data?.coins.filter(
+          (coin) => liked.includes(coin.uuid)
+        );
+        setLikedCoins(filteredCoins);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchWatchlist();
+  }, [email]);
+
+
+  // useEffect(() => {
+  //   const filteredCoins = cryptosList?.data?.coins.filter(
+  //     (coin) => watchlist.includes(coin.uuid)
+  //   );
+  //   setLikedCoins(filteredCoins);
+  // }, []);
+
+  // console.log("likedCoins", likedCoins)
+
+  // useEffect(() => {
+  //   const fetchCoinData = async () => {
+  //     try {
+  //       const coinDataPromises = watchlist.map(async (uuid) => {
+  //         const response = await axios.get(`https://coinranking1.p.rapidapi.com/coin/${uuid}`, {
+  //           headers: {
+  //             'X-RapidAPI-Host': import.meta.env.VITE_REACT_APP_CRYPTO_RAPIDAPI_HOST,
+  //             'X-RapidAPI-Key': import.meta.env.VITE_REACT_APP_RAPIDAPI_KEY,
+  //           },
+  //         });
+
+  //         return response.data.data.coin;
+  //       });
+
+  //       const coinData = await Promise.all(coinDataPromises);
+  //       console.log("coinData",coinData);
+  //       // Now you have an array of coin data, you can update your state or use it as needed
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+
+  //   if (watchlist.length > 0) {
+  //     fetchCoinData();
+  //   }
+  // }, [watchlist]);
+
+  // TOP GAINERS LIST 
+  useEffect(() => {
+    fetchTopGainers();
+  }, [ ]);
+
+  const fetchTopGainers = async () => {
+    try {
+      const response = await axios.get(
+        'https://api.coingecko.com/api/v3/coins/markets',
+        {
+          params: {
+            vs_currency: 'usd',
+            order: 'price_change_percentage_24h',
+            per_page: 4,
+            page: 1,
+            sparkline: true,
+          },
+        }
+      );
+
+      const gainersData = response.data.map((coin) => ({
+        key: coin.id,
+        name: coin.name,
+        symbol: coin.symbol,
+        currentPrice: coin.current_price,
+        percentChange: coin.price_change_percentage_24h,
+        icon: coin.image,
+        sparkline: coin.sparkline_in_7d.price,
+      }));
+
+      setGainers(gainersData);
+    } catch (error) {
+      console.error('Error fetching top gainers:', error);
+    }
+  };
+
+  // GET USER ASSETS SIDEBAR
+  const getUserAssets = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`http://localhost:3001/assets/${userId}`);
+      const { assets } = response.data;
+      setAssets(assets);
+
+      // Get token names from the JSON
+      const tokenNames = assets.map((item) => item.token);
+
+      // Fetch current prices using CoinGecko API
+      const pricesResponse = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenNames.join(',')}&vs_currencies=usd`);
+      const pricesData = pricesResponse.data;
+
+      // Fetch historical price data for the last 24 hours
+      const currentDate = Math.floor(Date.now() / 1000); // Get current timestamp
+      const historicalPricesResponse = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenNames.join(',')}&vs_currencies=usd&include_last_updated_at=true&date=${currentDate - 24 * 60 * 60}`);
+      const historicalPricesData = historicalPricesResponse.data;
+
+      // Calculate portfolio value
+      let totalValue = 0;
+      let totalCost = 0;
+
+      assets.forEach((item) => {
+        const currentPrice = pricesData[item.token]?.usd;
+        const historicalPrice = historicalPricesData[item.token]?.usd;
+
+        if (currentPrice && historicalPrice) {
+          const value = item.amount * currentPrice;
+          const cost = item.amount * historicalPrice;
+
+          totalValue += value;
+          totalCost += cost;
+        }
+      });
+      setPortfolioValue(totalValue);
+
+      // Calculate profit change percentage
+      const percentChange = ((totalValue - totalCost) / totalCost) * 100;
+      setProfitChange(percentChange);
+      
+      setLoading(false);
+    } catch (error) {
+      console.error('Error retrieving user assets:', error);
+    }
+  };
+  
+  useEffect(() => {
+    // Retrieve user data and assets on component mount
+    getUserAssets();
+  }, []);
+
+  // SUBMIT ASSETS TO DATABASE
+  const submitAssets = async () => {
+    const submittedAsset = {
+        token,
+        amount,
+        price,
+        email,
+    };
+    // http://localhost:3001/users/:id/crypto-data
+    // https://neublock-backend.onrender.com/auth/login
+    const assetResponse = await fetch("http://localhost:3001/assets", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(submittedAsset),
+    });
+    const assetData = await assetResponse.json();
+    if (assetData.error) {
+      notification.error({
+      message: assetData.error,
+      description: 'Oops! There was an error. Make sure to provide the necessary information before submitting.',
+      });
+    } else {
+      notification.info({
+        message: "Asset successfully added!",
+        description: '',
+        });
+    }
+  }
+
+  // DELETE AN ASSET
+  const handleDelete = async (assetId) => {
+    try {
+      await axios.delete(`http://localhost:3001/assets/${assetId}`);
+      getUserAssets();
+      setIsModalOpen(false);
+      // setSelectedAsset(null);
+    } catch (error) {
+      console.error('Error deleting asset:', error);
+    }
+  };
+
+  // ASSETS MODAL
+  const showModal = (asset) => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = async () => {
+    await submitAssets();
+    setAmount('')
+    setPrice('')
+    setToken('')
+    getUserAssets();
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setAmount('')
+    setPrice('')
+    setToken('')
+    setIsModalOpen(false);
+    // setSelectedAsset(null);
+  };
+  const onChange = (value) => {
+    setToken(value)
+    // console.log(`selected ${value}`);
+  };
+  const onSearch = (value) => {
+    // console.log('search:', value);
+  };  
+  
+  // SIDEBAR DRAWERS
   const { width } = useWindowSize();
   const [openSettings, setOpenSettings] = useState(false);
   const [openCredits, setOpenCredits] = useState(false);
   const [openChat, setOpenChat] = useState(false);
   const [openNotifications, setOpenNotifications] = useState(false);
   const [open, setOpen] = useState(false);
+
   const showSettings = () => {
     setOpenSettings(true);
   };
@@ -111,6 +419,65 @@ const Homepage = () => {
 
   const fullName = `${user.firstName} ${user.lastName}`;
 
+
+const columns = [
+  
+  {
+    title: 'Rank',
+    dataIndex: 'rank',
+    key: 'rank',
+    defaultSortOrder: 'ascend',
+    sorter: (a, b) => a.rank - b.rank,
+  },
+  {
+    title: "Icon",
+    dataIndex: "iconUrl", 
+    render: theiconUrl => <img alt={theiconUrl} src={theiconUrl} style={{height: '30px',}}/>  // 'theImageURL' is the variable you must declare in order the render the URL
+  },
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: 'Symbol',
+    dataIndex: 'symbol',
+    key: 'symbol',
+  },
+  {
+    title: '24-hour performance',
+    dataIndex: 'sparkline',
+    render: sparkline => (<Sparklines data={sparkline}>
+      <SparklinesLine color="cyan" />
+    </Sparklines>), 
+    key: 'sparkline',
+  },
+  {
+    title: 'Price',
+    dataIndex: "price",
+    render: theprice => ("$" + " " + millify(theprice)), 
+    key: 'price',
+    defaultSortOrder: 'ascend',
+    sorter: (a, b) => a.price - b.price,
+  },
+  {
+    title: 'Daily change',
+    dataIndex: "change",
+    render: thechange => (thechange > 0 ? <span style={{ color: 'limegreen'}}>{thechange} %</span> : <span style={{ color: 'red'}}>{thechange} %</span>), 
+    key: 'change',
+    defaultSortOrder: 'ascend',
+    sorter: (a, b) => a.change - b.change,
+  },
+  {
+    title: 'Market Cap',
+    dataIndex: 'marketCap',
+    render: themarketCap => ("$" + " " + millify(themarketCap)), 
+    key: 'marketCap',
+    defaultSortOrder: 'ascend',
+    sorter: (a, b) => a.marketCap - b.marketCap,
+  },
+];
+
   return (
       <Layout className="homepage-container" style={{minHeight: '100vh',}}>
         {/* MAIN */}
@@ -121,7 +488,8 @@ const Homepage = () => {
                   <p style={{color: '#fff', fontSize: '19px', lineHeight: '0.1'}}>Hi, {user.firstName}!</p>
                 </Col>
                 <Col xl={13} lg={16} sm={6} xs={10}>
-                  {width < 500 ? 
+                  
+                  {/* {width < 500 ? 
                     <Row className="sidebar-user-mobile" justify="space-between">
                       <Col span={2} onClick={showNotifications}  >              
                         <Badge dot><NotificationOutlined className="sidebar-user-badge"/></Badge>
@@ -146,7 +514,7 @@ const Homepage = () => {
                         width: 400,
                       }}
                     />
-                  }
+                  } */}
                 </Col>
             </Row>
           </Header>
@@ -170,9 +538,37 @@ const Homepage = () => {
                 </Row>
                 <img src={heading_bg} alt="header background" className="main-heading-card-bg"/>
               </Card>
+
+
+              {/* MAIN - CRYPTO CATEGORIES LIST CARDS */}
+              <Col span={24} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between',}}>
+                <Typography.Title level={5} style={{ height: 8}}>Overview</Typography.Title>
+                <Typography.Title level={5} style={{ height: 8}}><Link to="/cryptocurrencies">See all coins</Link></Typography.Title>
+              </Col>
+                {gainers?.map((data, index) => (
+                  <TrendingCoinCard data={data} key={index} loading={loadingOverview}/>
+                ))}
+
+              {/* MAIN - WATCHLIST TABLE*/}
+              {likedCoins.length ? 
+              <Col span={24} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between',}}>
+                <Typography.Title level={5} style={{ height: 8}}>Watchlist</Typography.Title>
+              </Col>
+              :
+              ''
+              }
+              
+              {likedCoins.length ? 
+              <Col span={24}>
+                <Table dataSource={likedCoins} columns={columns} className="home-table"/>
+              </Col>
+              :
+              ''
+              }
+
               {/* MAIN - NFT COLLECTION */}
               
-              <Col span={24} className="nft-collection-wrapper">
+              <Col span={24} className="nft-collection-wrapper" style={{ marginBottom: 50,}}>
                 <Typography.Title level={4} className="nft-title-heading">My NFT Collections</Typography.Title>
                 <Tabs defaultActiveKey="1" className="nft-tabs">
                 <Tabs.TabPane tab="Top NFTs" key="1">
@@ -236,14 +632,17 @@ const Homepage = () => {
                   </Tabs.TabPane>
                 </Tabs>
               </Col>
+
               {/* MAIN - ASSET CHARTS */}
-              
+              {/* <Col span={24}>
+                <Typography.Title level={5} style={{ height: 8}}>Statistics</Typography.Title>
+              </Col>
               <Row gutter={width < 500 ? [9,24] : [34, 20]}>
                 <Col xl={12} lg={16} sm={24} xs={24}>
                   <HomeLinechart/>
                 </Col>
                 <Col xl={6} lg={8} sm={24} xs={24}>
-                  <HomeDonut/>
+                  <HomeDonut assets={assets}/>
                 </Col>
                 <Col xl={5} lg={6} sm={24} xs={24} className="home-transactions-column">
                   <Card className="home-transactions-card" style={{width: width > 1100 ? '185px' : '140px', height: width > 1100 ? '180px' : '220px'}}>
@@ -265,7 +664,7 @@ const Homepage = () => {
                     />
                   </Card>
                 </Col>
-              </Row>
+              </Row> */}
             </Row>
           </Content>
         </Layout>
@@ -298,38 +697,66 @@ const Homepage = () => {
           <Row className="sidebar-transactions">
             <Col span={24}>
               <Card className="sidebar-port">
-                <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                <Typography.Title level={4} className="transactions-title">My Portfolio</Typography.Title>
-                  <BarChartOutlined />
-                </div>
-                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                  <p style={{lineHeight: '1', fontSize: '20px', fontWeight: '400'}}>$34,010.00</p>
-                  <p style={{lineHeight: '1', fontSize: '13px', fontWeight: '400'}}>+2.55%</p>
-                </div>
-                <div className="sidebar-port-buttons">
-                  <Button className="sidebar-button" style={{fontSize: '10px', borderRadius: '6px', width: width > 1100 ? '90px' : '80px', border: '0px', color: '#fff'}} icon={<VerticalAlignBottomOutlined style={{fontSize: '14px', marginLeft: width > 1100 ? '' : '-6px', marginRight: '-6px'}}/>}>Deposit</Button>
-                  <Button className="sidebar-button" style={{fontSize: '10px', borderRadius: '6px', width: width > 1100 ? '90px' : '80px', border: '0px', color: '#fff'}} icon={<VerticalAlignTopOutlined style={{fontSize: '14px', marginLeft: width > 1100 ? '' : '-6px', marginRight: '-6px'}} />}>Withdraw</Button>
-                </div>
-              </Card>
+                  <div style={{padding: '0 14px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255, 0.1)'}}>
+                    <Typography.Title level={4} className="transactions-title">Portfolio Value</Typography.Title>
+                    <BarChartOutlined style={{fontSize: 18}}/>
+                  </div>
+
+                    {loading ? <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100px', }}><Spin tip="Loading" /></Row> : 
+                      <div style={{padding: '0 14px',margin: '10px 0 -20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                      <p style={{lineHeight: '1', fontSize: '24px', fontWeight: '400'}}>${millify(portfolioValue)}</p>
+                      {portfolioValue === 0 ? "" : <p style={{lineHeight: '1', fontSize: '13px', fontWeight: '400'}}>
+                        {profitChange.toFixed(2) > 0 ? 
+                          <CaretUpOutlined  style={{color: 'limegreen'}}/> 
+                          : 
+                          <CaretDownOutlined style={{color: 'red'}}/>} 
+                        {profitChange.toFixed(2) > 0 ? 
+                          (<span style={{color: 'limegreen'}}>{profitChange.toFixed(2)}%</span>) 
+                        : 
+                          (<span style={{color: 'red'}}>{profitChange.toFixed(2)}%</span>)}
+                      </p>}
+                      </div>
+                    }
+                  
+                    {assets.length ? <HomeDonut assets={assets}/> : ''}
+
+                  {/* <div className="sidebar-port-buttons">
+                    <Button className="sidebar-button" style={{fontSize: '10px', borderRadius: '6px', width: width > 1100 ? '90px' : '80px', border: '0px', color: '#fff'}} icon={<VerticalAlignBottomOutlined style={{fontSize: '14px', marginLeft: width > 1100 ? '' : '-6px', marginRight: '-6px'}}/>}>Deposit</Button>
+                    <Button className="sidebar-button" style={{fontSize: '10px', borderRadius: '6px', width: width > 1100 ? '90px' : '80px', border: '0px', color: '#fff'}} icon={<VerticalAlignTopOutlined style={{fontSize: '14px', marginLeft: width > 1100 ? '' : '-6px', marginRight: '-6px'}} />}>Withdraw</Button>
+                  </div> */}
+                </Card>
             </Col>
           </Row>
-
-          <Typography.Title level={4} className="coin-details-heading" style={{padding: '0 10px'}}>My Assets</Typography.Title>
+          
+          <div style={{display: 'flex', justifyContent: 'space-between',alignItems: 'center', height: '60px', padding: '0 10px 0',}}>
+            <Typography.Title level={4} className="coin-details-heading" style={{padding: '0 10px', height: 35}}>My Assets</Typography.Title>
+            {/* <Button onClick={showModal} className="assets-add-button" style={{fontSize: '10px', borderRadius: '6px', width: '40px', border: '0px', color: '#fff',}} icon={<PlusOutlined style={{fontSize: '18px',}}/> }></Button> */}
+            <PlusOutlined className='header-toggle-button' onClick={showModal} style={{fontSize: 16}}/>
+          </div>
+          
+          {loading ? 
+          <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '200px', }}><Spin tip="Loading" /></Row> 
+          : 
           <Row gutter={[10, 10]} className="sidebar-assets">
-            {assetsData?.map((assets) => (
-              <Col span={24} className="assets-card-container" key={assets.coin}>
-                  <div className="assets-card">
-                    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '2px'}}>
-                      <p><span style={{fontSize: '19px'}}>{assets.value}</span>  {assets.coin}</p>
-                      <p>PROFITS: <span style={{color: 'limegreen'}}>{assets.profit}</span></p>
-                    </div>
-                    <div>
-                      <img className="assets-image" src={assets.logo} />
-                    </div>
-                  </div>
-              </Col>
+            {assets?.map((assets, index) => (
+              <AssetCard 
+                onDelete={() => handleDelete(assets._id)} 
+                key={assets._id} 
+                token={assets.token} 
+                amount={assets.amount} 
+                price={assets.price} 
+              />
             ))}
-          </Row>
+            
+          </Row>}
+          { !assets.length ?
+            <Col span={24} style={{textAlign: 'center', padding: 20, margin: 12, display: 'flex',flexDirection: 'column', alignItems: "center", justifyContent: 'center',height: 180, border: '2px dashed #fff', borderRadius: 10}}>
+            <p style={{ fontSize: 12}}>Start tracking your assets by clicking the plus button</p>
+            <FundViewOutlined  style={{ fontSize: 38}}/>
+            </Col>
+          :
+          ''
+          }
         </Sider>
 
         <Drawer style={{zIndex: '10000'}} title="Settings" placement="right" onClose={onCloseSettings} open={openSettings} className="drawer-settings">
@@ -344,6 +771,223 @@ const Homepage = () => {
         <Drawer style={{zIndex: '10000'}} title="Notifications" placement="right" onClose={onCloseNotifications} open={openNotifications} >
           <Notifications/>
         </Drawer>
+        <Modal 
+          style={{width: '20px'}} 
+          title="Add your assets" 
+          open={isModalOpen} 
+          onOk={handleOk} 
+          onCancel={handleCancel}
+        >
+          <div style={{flexDirection: 'column', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px'}}>
+            <Input
+              style={{
+                width: 290,
+                height: 32,
+              }}
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)} 
+              placeholder="Number of tokens" 
+            />
+
+            <Input
+              style={{
+                width: 290,
+                height: 32,
+              }}
+              value={price}
+              onChange={(e) => setPrice(e.target.value)} 
+              placeholder="Average price" 
+            />
+            <Select
+              style={{
+                width: 290,
+                height: 32,
+              }}
+              showSearch
+              placeholder="Select a token"
+              optionFilterProp="children"
+              large
+              onChange={onChange}
+              onSearch={onSearch}
+              filterOption={(input, option) =>
+                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+              }
+              options={[
+                {
+                  value: 'apecoin',
+                  label: 'apecoin',
+                },
+                {
+                  value: 'aptos',
+                  label: 'aptos',
+                },
+                {
+                  value: 'arbitrum',
+                  label: 'arbitrum',
+                },
+                {
+                  value: 'binance',
+                  label: 'binance',
+                },
+                {
+                  value: 'bitcoin',
+                  label: 'bitcoin',
+                },
+                {
+                  value: 'cardano',
+                  label: 'cardano',
+                },
+                {
+                  value: 'ethereum',
+                  label: 'ethereum',
+                },
+                {
+                  value: 'litecoin',
+                  label: 'litecoin',
+                },
+                {
+                  value: 'optimism',
+                  label: 'optimism',
+                },
+                {
+                  value: 'polkadot',
+                  label: 'polkadot',
+                },
+                {
+                  value: 'polygon',
+                  label: 'polygon',
+                },
+                {
+                  value: 'solana',
+                  label: 'solana',
+                },
+                {
+                  value: 'sui',
+                  label: 'sui',
+                },
+                {
+                  value: 'tron',
+                  label: 'tron',
+                },
+                {
+                  value: 'xrp',
+                  label: 'xrp',
+                },
+              ]}
+            />
+          </div>
+      </Modal>
+      {/* <Modal
+  style={{ width: '20px' }}
+  title={isCreatingAsset ? "Add your assets" : "Edit Asset"}
+  open={isModalOpen}
+  onOk={handleOk}
+  onCancel={handleCancel}
+>
+  {isModalOpen && (
+    <div style={{ flexDirection: 'column', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px' }}>
+      <Input
+        style={{
+          width: 290,
+          height: 32,
+        }}
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+        placeholder="Number of tokens"
+      />
+
+      <Input
+        style={{
+          width: 290,
+          height: 32,
+        }}
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+        placeholder="Average price"
+      />
+
+      {isCreatingAsset && (
+        <Select
+          style={{
+            width: 290,
+            height: 32,
+          }}
+          showSearch
+          placeholder="Select a token"
+          optionFilterProp="children"
+          large
+          onChange={onChange}
+          onSearch={onSearch}
+          filterOption={(input, option) =>
+            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+          }
+          options={[
+            {
+              value: 'apecoin',
+              label: 'apecoin',
+            },
+            {
+              value: 'aptos',
+              label: 'aptos',
+            },
+            {
+              value: 'arbitrum',
+              label: 'arbitrum',
+            },
+            {
+              value: 'binance',
+              label: 'binance',
+            },
+            {
+              value: 'bitcoin',
+              label: 'bitcoin',
+            },
+            {
+              value: 'cardano',
+              label: 'cardano',
+            },
+            {
+              value: 'ethereum',
+              label: 'ethereum',
+            },
+            {
+              value: 'litecoin',
+              label: 'litecoin',
+            },
+            {
+              value: 'optimism',
+              label: 'optimism',
+            },
+            {
+              value: 'polkadot',
+              label: 'polkadot',
+            },
+            {
+              value: 'polygon',
+              label: 'polygon',
+            },
+            {
+              value: 'solana',
+              label: 'solana',
+            },
+            {
+              value: 'sui',
+              label: 'sui',
+            },
+            {
+              value: 'tron',
+              label: 'tron',
+            },
+            {
+              value: 'xrp',
+              label: 'xrp',
+            },
+          ]}
+        />
+      )}
+    </div>
+  )}
+</Modal> */}
       </Layout>
   )
 }

@@ -29,15 +29,20 @@ const UserSchema = new mongoose.Schema(
         type: String,
         default: "",
     },
-    watchlist: {
-        type: Array,
-        default: [],
-    },
+    watchlist: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Watchlist',
+    }],
+    liked: Array,
     role: {
         type: String,
         enum: ["user", "admin"],
         default: "user"
     },
+    assets: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Asset',
+    }],
 },
 { timestamps: true }
 );

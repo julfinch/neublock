@@ -335,6 +335,66 @@ a:hover{
   line-height: 1.5715;
   font-weight: 300 important;
 }
+/*MAIN - MODAL*/
+.ant-modal-content {
+  background-color: var(--bgTertiary) !important;
+  width: 440px;
+}
+.ant-modal-header {
+  background: none !important; 
+}
+.ant-modal-title, .ant-modal-close{
+  color: #fff !important;
+}
+.ant-modal-body .ant-select-selection-placeholder {
+  color: #fff !important;
+}
+.ant-select-show-search{
+  background-color: var(--bgTertiary) !important;
+  color: #000 !important;
+}
+
+/* TRENDING CRYPTO CARDS */
+.trending-coins-card {
+  background: var(--bgTertiary) !important;
+  box-shadow: 0.5px 15.5px 14px 1px #131427 !important;
+  border-radius: 6px !important;
+  color: #fff !important;
+  font-size: 13px !important;
+  font-weight: 200 !important;
+  line-height: 1.3 !important;
+}
+.trending-coins-card .ant-card-body {
+  padding: 14px;
+}
+
+/* HOME WATCHLIST TABLE */
+.home-table{
+  background: #1d203f !important;
+}
+.homepage-container > .home-table > .ant-table-thead > .ant-table-cell {
+  position: relative;
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-weight: 500;
+  text-align: left;
+  background: #1d203f !important;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  transition: background 0.3s ease;
+}
+.home-table > .ant-table-tbody > tr > td {
+  color: rgba(255, 255, 255, 0.85) !important;
+  background: #1d203f !important;
+  border-bottom: 1px solid rgba(255,255,255,0.2) !important;
+  transition: background 0.3s;
+}
+.home-table > .ant-table-tbody > tr.ant-table-row:hover > td, 
+.home-table > .ant-table-tbody > tr > td.ant-table-cell-row-hover {
+  color: rgba(255, 255, 255, 0.85) !important;
+  background: #1d203f !important;
+}
+
+
+
 /* NFT COLLECTION*/
 .nft-heading-card{
   background: url('./images/home_bg.jpg') !important;
@@ -369,21 +429,28 @@ a:hover{
   overflow: hidden;
 }
 .ant-select:not(.ant-select-customize-input) .ant-select-selector {
-  background-color: #2a2b47 !important;
-  border: 1px solid rgba(255,255,255, 0.3) !important;
-  border-radius: 2px;
+  background-color: var(--bgTertiary) !important;
+  border: 1px solid rgba(255,255,255, 0.8) !important;
+  border-radius: 4px !important;
+  font-size: 12px ;
+  min-width: 180px;
 }
 .ant-select-arrow {
   color: rgba(255, 255, 255, 0.25) !important;
 }
 .ant-select {
-  color: rgba(255,255,255,0.3) !important;
+  color: #fff !important;
 }
 .ant-select-item {
-  color: gray !important;
+  color: #949494 !important;
+  font-size: 12px !important;
 }
 .ant-select-dropdown {
-  color: #000;
+  color: #fff;
+  background-color: #2a2b47 !important;
+}
+.ant-select-show-arrow {
+  color: #fff;
   background-color: #2a2b47 !important;
 }
 .homepage-nft-collection:hover{
@@ -471,7 +538,7 @@ a:hover{
 .sidebar-container{
   background: #2b2f48 !important;
   min-width: 250px !important;
-  border-left: 1px solid pink;
+  border-left: 1px solid  rgba(255,255,255,0.2) ;
 }
 .sidebar-user{
   display: flex !important;
@@ -494,6 +561,7 @@ a:hover{
 .sidebar-assets,
 .sidebar-transactions{
   padding: 0 10px;
+  margin-bottom: 80px !important;
 }
 .home-chart-card{
   margin-left: 7px !important;
@@ -551,6 +619,7 @@ a:hover{
 .sidebar-profile{
   pointer-events: none !important;
   width: 100% !important;
+  margin-top: -25px;
 }
 .sidebar-profile .ant-card-meta-title{
   color: #fff !important;
@@ -561,15 +630,32 @@ a:hover{
 .sidebar-profile .ant-card-meta-description{
   color: rgba(255, 255, 255, 0.3) !important;
 }
+
+
+.sidebar-donut-card{
+  width: 100% !important;
+  height: 100% !important;
+  margin-bottom: -50px;
+}
+.sidebar-donut-card .ant-card-body > canvas{
+  padding: 0 0 10px;
+}
+.sidebar-donut-card{
+  background: var(--bgTertiary) !important;
+}
+.sidebar-blank-card{
+  max-Height: '10px' !important;
+}
 .assets-image{
-  width: 50px;
+  width: 40px;
   margin-top: -10px;
 }
 .sidebar-port .ant-card-body{
-  padding: 10px 14px;
+  padding: 10px 0px 3px;
 }
 .sidebar-transactions {
   margin-top: 20px !important;
+  margin-bottom: 10px !important;
 }
 .sidebar-port-buttons{
   display: flex;
@@ -590,9 +676,61 @@ a:hover{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 10px 20px 0px;
+  /* padding: 10px 20px 0px; */
+  padding-top: 10px;
   align-items: center;
 }
+.assets-card:hover{
+  background-color: #100747 !important;
+}
+.assets-add-button{
+  background: var(--bgTertiary) !important;
+  box-shadow: 0.5px 15.5px 14px 1px #131427 !important;
+}
+.assets-card-add-button:hover {
+  background-color: #100747 !important;
+}
+.assets-card-add-button{
+  background: var(--bgTertiary) !important;
+  box-shadow: 0.5px 15.5px 14px 1px #131427 !important;
+  border-radius: 10px !important;
+  color: #fff !important;
+  font-weight: 400 !important;
+  line-height: 0.4 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  padding: 22px 0 !important;
+  align-items: center;
+  min-width: 100% !important;
+  border: 0px !important;
+}
+/*----------------------- CRYPTOCURRENCIES PAGE ------------------------------------*/
+.cryptocurrencies-table{
+  background: #2b2f48 !important;
+}
+.ant-table-thead > tr > th {
+  position: relative;
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-weight: 500;
+  text-align: left;
+  background: #2b2f48 !important;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  transition: background 0.3s ease;
+}
+.ant-table-tbody > tr > td {
+  color: rgba(255, 255, 255, 0.85) !important;
+  background: #383d5d;
+  border-bottom: 1px solid rgba(255,255,255,0.2) !important;
+  transition: background 0.3s;
+}
+.ant-table-tbody > tr.ant-table-row:hover > td, 
+.ant-table-tbody > tr > td.ant-table-cell-row-hover {
+  color: rgba(255, 255, 255, 0.85) !important;
+  background: #100747 !important;
+}
+
+
 @media screen and (max-width: 500px){
   {/* NAVBAR */}
   .logo-container{
@@ -729,7 +867,7 @@ a:hover{
 .sidebar-port{
   background: var(--bgTertiary) !important;
   box-shadow: 0.5px 15.5px 14px 1px #131427 !important;
-  border-radius: 15px !important;
+  border-radius: 7px !important;
   color: #fff !important;
   font-size: 13px !important;
   font-weight: 200 !important;
@@ -929,7 +1067,6 @@ a:hover{
   .sidebar-container{
     background: #2b2f48 !important;
     min-width: 210px !important;
-    border-left: 1px solid pink;
   }
   .sidebar-transactions {
     margin-bottom: 50px;
@@ -940,15 +1077,15 @@ a:hover{
   }
   /*CRYPTO*/
   .cryptocurrencies-header {
-    width: 840px !important;
     margin: -20px -20px 0 -30px !important;
   }
+
   .crypto-card{
     max-width: 260px !important;
   }
   /* CRYPTO-DETAILS*/
   .chart-card-container{
-    width: 750px;
+    width: 100%;
   }
   .coin-stats{
     font-size: 12px !important;
@@ -1233,15 +1370,33 @@ width: 70%;
 }
 .cryptocurrencies-header {
   background: #2b2f48 !important;
-  width: 1080px;
+  width: 100% !important;
   height: 50px;
-  position: fixed;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative;
   z-index: 10;
 }
 .search-crypto{
   margin: 15px auto 50px auto;
   width: 250px;
   background-color: #2b2f48 !important;
+}
+.header-toggle-button{
+  color: #fff !important;
+  font-size: 25px;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 6px;
+  border-radius: 4px;
+  background-color: linear-gradient(90deg, rgba(228,76,242,1) 20%, rgba(76,221,242,1) 100%) !important;
+  -webkit-box-shadow: 5px 4px 6px 0 rgba(0,0,0,0.4) !important;
+  -moz-box-shadow: 5px 4px 6px 0 rgba(0,0,0,0.4) !important;
+  box-shadow: 5px 4px 6px 0 rgba(0,0,0,0.4) !important;
+}
+.header-toggle-button:hover {
+  background-color: #100747;
+  border: 1px solid blue;
 }
 .crypto-card-container{
   min-height: 65vh !important;
@@ -1250,6 +1405,9 @@ width: 70%;
   max-width: 240px !important;
   padding-left: 0px !important;
   padding-right: 0px !important;
+}
+.cryptocurrencies-card:hover{
+  background-color: #100747 !important;
 }
 .crypto-card .crypto-image{
   width:35px;

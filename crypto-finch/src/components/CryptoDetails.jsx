@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import HTMLReactParser from 'html-react-parser';
 import { useParams } from 'react-router-dom';
+import useWindowSize from "../hooks/useWindowSize";
 import millify from 'millify';
 import { Col, Row, Typography, Select, Card } from 'antd';
 import { MoneyCollectOutlined, DollarCircleOutlined, FundOutlined, ExclamationCircleOutlined, StopOutlined, TrophyOutlined, CheckOutlined, NumberOutlined, ThunderboltOutlined } from '@ant-design/icons';
@@ -13,6 +14,7 @@ const { Title, Text } = Typography;
 const { Option } = Select;
 
 const CryptoDetails = () => {
+  const { width } = useWindowSize();
   const { coinId } = useParams();
   const [timeperiod, setTimeperiod] = useState('7d');
   const { data, isFetching } = useGetCryptoDetailsQuery(coinId);
@@ -42,7 +44,7 @@ const CryptoDetails = () => {
   return (
     <Col className="coin-detail-container">
       <Row gutter={[32, 32]}>
-      <Card className='chart-card-container'>
+      <Card className='chart-card-container' >
       <Col className="coin-heading-container">
         <Title level={3} className="coin-name">
           {data?.data?.coin.name} ({data?.data?.coin.symbol}) Price

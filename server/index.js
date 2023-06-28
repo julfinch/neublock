@@ -11,6 +11,8 @@ import { fileURLToPath } from "url"
 import { register } from "./controllers/auth.js"
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
+import assetRoutes from "./routes/assetRoutes.js"
+import watchlistRoutes from "./routes/watchlist.js"
 import { verifyToken } from "./middleware/auth.js";
 import { expressCspHeader, INLINE, NONE, SELF } from "express-csp-header"
 import User from "./models/User.js";
@@ -108,15 +110,23 @@ app.post("/auth/register", register);
 /* ROUTES */
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
+app.use("/assets", assetRoutes);
+app.use("/watchlist", watchlistRoutes);
 
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
 mongoose
-.connect("mongodb://mongo-db/neublock", {
+// USE THIS DURING DEVELOPMENT, WHEN PUSHING TO GITHUB AND TO REMOVE DEPLOYMENT ERROR ON ONRENDER.COM
+.connect(process.env.MONGO_URL, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 })
+// USE THIS WHEN USING DOCKER COMPOSE FOR SUCCESSFUL JENKINSFILE PIPELINE
+// .connect("mongodb://mongo-db/neublock", {
+// 	useNewUrlParser: true,
+// 	useUnifiedTopology: true,
+// })
 .then(() => {
 	app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
 
