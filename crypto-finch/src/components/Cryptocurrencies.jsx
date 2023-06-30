@@ -36,7 +36,7 @@ const Cryptocurrencies = ({ simplified }) => {
   useEffect(() => {
     const fetchWatchlist = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/users/liked/${email}`);
+        const response = await axios.get(`https://neublock-backend.onrender.com/users/liked/${email}`);
         const { liked } = response.data;
         setWatchlist(liked);
       } catch (error) {
@@ -49,7 +49,7 @@ const Cryptocurrencies = ({ simplified }) => {
 
   const addToList = async (uuid) => {
     try {
-      await axios.post("http://localhost:3001/users/add", {
+      await axios.post("https://neublock-backend.onrender.com/users/add", {
         email,
         uuid,
       });
@@ -61,7 +61,7 @@ const Cryptocurrencies = ({ simplified }) => {
 
   const removeFromList = async (uuid) => {
     try {
-      await axios.put("http://localhost:3001/users/remove", {
+      await axios.put("https://neublock-backend.onrender.com/users/remove", {
         email,
         uuid,
       });

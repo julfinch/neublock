@@ -205,9 +205,9 @@ const LoginForm = () => {
             email,
             password,
         };
-        // http://localhost:3001/auth/login
         // https://neublock-backend.onrender.com/auth/login
-        const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
+        // https://neublock-backend.onrender.com/auth/login
+        const loggedInResponse = await fetch("https://neublock-backend.onrender.com/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(loginUser),

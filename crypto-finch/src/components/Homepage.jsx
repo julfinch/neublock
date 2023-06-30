@@ -173,7 +173,7 @@ const Homepage = () => {
   useEffect(() => {
     const fetchWatchlist = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/users/liked/${email}`);
+        const response = await axios.get(`https://neublock-backend.onrender.com/users/liked/${email}`);
         const { liked } = response.data;
         setWatchlist(liked);
 
@@ -266,7 +266,7 @@ const Homepage = () => {
   const getUserAssets = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:3001/assets/${userId}`);
+      const response = await axios.get(`https://neublock-backend.onrender.com/assets/${userId}`);
       const { assets } = response.data;
       setAssets(assets);
 
@@ -323,9 +323,9 @@ const Homepage = () => {
         price,
         email,
     };
-    // http://localhost:3001/users/:id/crypto-data
+    // https://neublock-backend.onrender.com/users/:id/crypto-data
     // https://neublock-backend.onrender.com/auth/login
-    const assetResponse = await fetch("http://localhost:3001/assets", {
+    const assetResponse = await fetch("https://neublock-backend.onrender.com/assets", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(submittedAsset),
@@ -347,7 +347,7 @@ const Homepage = () => {
   // DELETE AN ASSET
   const handleDelete = async (assetId) => {
     try {
-      await axios.delete(`http://localhost:3001/assets/${assetId}`);
+      await axios.delete(`https://neublock-backend.onrender.com/assets/${assetId}`);
       getUserAssets();
       setIsModalOpen(false);
       // setSelectedAsset(null);
