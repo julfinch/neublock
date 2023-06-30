@@ -315,9 +315,6 @@ const Homepage = () => {
     getUserAssets();
   }, []);
 
-  console.log("assets",assets)
-  console.log("likedCoins",likedCoins)
-
   // SUBMIT ASSETS TO DATABASE
   const submitAssets = async () => {
     const submittedAsset = {

@@ -85,7 +85,7 @@ const AssetCard = ({ token, amount, price, onClick, onDelete }) => {
             </p>
           </div>
         <div>
-        {imageTitle && <img className="assets-image" src={`/src/images/crypto_icons/${imageTitle}.png`} alt={imageTitle} />}</div>
+        {imageTitle && <img className="assets-image" src={`https://res.cloudinary.com/dwxdztigp/image/upload/v1687273091/neublock/crypto-icons/${imageTitle}.png`} alt={imageTitle} />}</div>
       </div>
         </Col>
     )
