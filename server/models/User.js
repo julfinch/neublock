@@ -39,10 +39,17 @@ const UserSchema = new mongoose.Schema(
         enum: ["user", "admin"],
         default: "user"
     },
-    assets: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Asset',
-    }],
+    assets: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Asset',
+        }],
+        default: [],
+    },
+    // assets: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Asset',
+    // }],
 },
 { timestamps: true }
 );
