@@ -550,7 +550,7 @@ const columns = [
                 ))}
 
               {/* MAIN - WATCHLIST TABLE*/}
-              {likedCoins.length ? 
+              {likedCoins.length < 1 ? 
               <Col span={24} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between',}}>
                 <Typography.Title level={5} style={{ height: 8}}>Watchlist</Typography.Title>
               </Col>
@@ -558,7 +558,7 @@ const columns = [
               ''
               }
               
-              {likedCoins.length ? 
+              {likedCoins.length < 1 ? 
               <Col span={24}>
                 <Table dataSource={likedCoins} columns={columns} className="home-table"/>
               </Col>
@@ -718,7 +718,7 @@ const columns = [
                       </div>
                     }
                   
-                    {assets.length ? <HomeDonut assets={assets}/> : ''}
+                    {assets.length < 1 ? <HomeDonut assets={assets}/> : ''}
 
                   {/* <div className="sidebar-port-buttons">
                     <Button className="sidebar-button" style={{fontSize: '10px', borderRadius: '6px', width: width > 1100 ? '90px' : '80px', border: '0px', color: '#fff'}} icon={<VerticalAlignBottomOutlined style={{fontSize: '14px', marginLeft: width > 1100 ? '' : '-6px', marginRight: '-6px'}}/>}>Deposit</Button>
@@ -749,7 +749,7 @@ const columns = [
             ))}
             
           </Row>}
-          { !assets.length ?
+          { !assets.length < 1 ?
             <Col span={24} style={{textAlign: 'center', padding: 20, margin: 12, display: 'flex',flexDirection: 'column', alignItems: "center", justifyContent: 'center',height: 180, border: '2px dashed #fff', borderRadius: 10}}>
             <p style={{ fontSize: 12}}>Start tracking your assets by clicking the plus button</p>
             <FundViewOutlined  style={{ fontSize: 38}}/>
