@@ -222,9 +222,11 @@ const LoginForm = () => {
         }
             
         
-        if (loggedIn) {
+        if (loggedIn.user && loggedIn.token) {
             localStorage.setItem('user', JSON.stringify(loggedIn.user))
             localStorage.setItem('token', loggedIn.token)
+            localStorage.setItem('isLoggedIn', true)
+
             // console.log('loggedIn', loggedIn);
             // console.log('loggedIn user firstName', loggedIn.user.firstName);
             // console.log('user firstName', JSON.parse(localStorage.getItem('user')));

@@ -1,5 +1,31 @@
 import User from "../models/User.js";
 
+
+export const editUser = async (req, res) => {
+	try {
+		const { id } = req.params;	
+		const { firstName, lastName, email, password, picturePath } = req.body;
+
+	  // Find the user by ID
+		const user = await User.findById(id);
+
+	  // Update the user information
+		user.firstName = firstName;
+		user.lastName = lastName;
+		user.email = email;
+		user.password = password;
+		user.picturePath = picturePath;
+
+	  // Save the updated user
+		const updatedUser = await user.save();	
+
+		res.status(200).json(updatedUser);
+	} catch (err) {
+		res.status(400).json({ message: err.message });
+	}
+};
+
+
 /* READ */
 // In the getUser, we grab the id of the user from req.params(1st line) 
 // and then we grab that current user and find that specific user using 

@@ -60,34 +60,6 @@ import { useSelector } from "react-redux";
 import AssetCard from './AssetCard';
 import TrendingCoinCard from './TrendingCoinCard';
 
-const data = [
-  {
-    icon: icon1,
-    title: 'Polygon',
-    desc: 'Buy',
-    amount: '$ 1,200'
-  },
-  {
-    icon: icon2,
-    title: 'Tron',
-    desc: 'Sell',
-    amount: '$ 4,240'
-  },
-  {
-    icon: icon3,
-    title: 'Cardano',
-    desc: 'Pending',
-    amount: '$ 7,120'
-  },
-  {
-    icon: icon4,
-    title: 'Ripple',
-    desc: 'Received',
-    amount: '$ 264'
-  },
-];
-
-
 const formatNumber = (value) => new Intl.NumberFormat().format(value);
 const NumericInput = (props) => {
   const { value, onChange } = props;
@@ -139,9 +111,11 @@ const Homepage = () => {
   const [cryptos, setCryptos] = useState();
 
   const auth = localStorage.getItem('token');
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
+console.log("isLoggedIn", isLoggedIn)
   // console.log('auth', auth);
 
-  if (!auth || auth === 'undefined') {
+  if (!auth || auth === 'undefined' || isLoggedIn === 'false') {
     history.push("/login");
   }
 
@@ -188,43 +162,6 @@ const Homepage = () => {
 
     fetchWatchlist();
   }, [email]);
-
-
-  // useEffect(() => {
-  //   const filteredCoins = cryptosList?.data?.coins.filter(
-  //     (coin) => watchlist.includes(coin.uuid)
-  //   );
-  //   setLikedCoins(filteredCoins);
-  // }, []);
-
-  // console.log("likedCoins", likedCoins)
-
-  // useEffect(() => {
-  //   const fetchCoinData = async () => {
-  //     try {
-  //       const coinDataPromises = watchlist.map(async (uuid) => {
-  //         const response = await axios.get(`https://coinranking1.p.rapidapi.com/coin/${uuid}`, {
-  //           headers: {
-  //             'X-RapidAPI-Host': import.meta.env.VITE_REACT_APP_CRYPTO_RAPIDAPI_HOST,
-  //             'X-RapidAPI-Key': import.meta.env.VITE_REACT_APP_RAPIDAPI_KEY,
-  //           },
-  //         });
-
-  //         return response.data.data.coin;
-  //       });
-
-  //       const coinData = await Promise.all(coinDataPromises);
-  //       console.log("coinData",coinData);
-  //       // Now you have an array of coin data, you can update your state or use it as needed
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   if (watchlist.length > 0) {
-  //     fetchCoinData();
-  //   }
-  // }, [watchlist]);
 
   // TOP GAINERS LIST 
   useEffect(() => {
@@ -760,7 +697,7 @@ const columns = [
         </Sider>
 
         <Drawer style={{zIndex: '10000'}} title="Settings" placement="right" onClose={onCloseSettings} open={openSettings} className="drawer-settings">
-          <Settings/>
+          <Settings userId={userId}/>
         </Drawer>
         <Drawer style={{zIndex: '10000'}} title="Linked Cards" placement="right" onClose={onCloseCredits} open={openCredits} >
           <Credits/>
@@ -877,117 +814,7 @@ const columns = [
             />
           </div>
       </Modal>
-      {/* <Modal
-  style={{ width: '20px' }}
-  title={isCreatingAsset ? "Add your assets" : "Edit Asset"}
-  open={isModalOpen}
-  onOk={handleOk}
-  onCancel={handleCancel}
->
-  {isModalOpen && (
-    <div style={{ flexDirection: 'column', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px' }}>
-      <Input
-        style={{
-          width: 290,
-          height: 32,
-        }}
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-        placeholder="Number of tokens"
-      />
 
-      <Input
-        style={{
-          width: 290,
-          height: 32,
-        }}
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-        placeholder="Average price"
-      />
-
-      {isCreatingAsset && (
-        <Select
-          style={{
-            width: 290,
-            height: 32,
-          }}
-          showSearch
-          placeholder="Select a token"
-          optionFilterProp="children"
-          large
-          onChange={onChange}
-          onSearch={onSearch}
-          filterOption={(input, option) =>
-            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-          }
-          options={[
-            {
-              value: 'apecoin',
-              label: 'apecoin',
-            },
-            {
-              value: 'aptos',
-              label: 'aptos',
-            },
-            {
-              value: 'arbitrum',
-              label: 'arbitrum',
-            },
-            {
-              value: 'binance',
-              label: 'binance',
-            },
-            {
-              value: 'bitcoin',
-              label: 'bitcoin',
-            },
-            {
-              value: 'cardano',
-              label: 'cardano',
-            },
-            {
-              value: 'ethereum',
-              label: 'ethereum',
-            },
-            {
-              value: 'litecoin',
-              label: 'litecoin',
-            },
-            {
-              value: 'optimism',
-              label: 'optimism',
-            },
-            {
-              value: 'polkadot',
-              label: 'polkadot',
-            },
-            {
-              value: 'polygon',
-              label: 'polygon',
-            },
-            {
-              value: 'solana',
-              label: 'solana',
-            },
-            {
-              value: 'sui',
-              label: 'sui',
-            },
-            {
-              value: 'tron',
-              label: 'tron',
-            },
-            {
-              value: 'xrp',
-              label: 'xrp',
-            },
-          ]}
-        />
-      )}
-    </div>
-  )}
-</Modal> */}
       </Layout>
   )
 }

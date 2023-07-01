@@ -1,10 +1,9 @@
 import React from 'react'
 import { Checkbox, Form, Input, Image, Typography, Button } from 'antd';
-import avatar_pic from "../images/avatar_pic.svg";
 import { useSelector } from "react-redux";
 
 
-const Settings = () => {
+const Settings = ({userId}) => {
   // const user = useSelector((state) => state.user);
   const user = JSON.parse(localStorage.getItem('user'));
 
