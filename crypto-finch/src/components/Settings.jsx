@@ -56,7 +56,7 @@ const Settings = ({userId}) => {
     // Fetch the user data from the backend when the component mounts
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/users/${userId}`, {
+        const response = await axios.get(`https://neublock-backend.onrender.com/users/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -84,7 +84,7 @@ const Settings = ({userId}) => {
   const handleFormSubmit = async () => {
     setLoading(true);
     try {
-      const response = await axios.put(`http://localhost:3001/users/${userId}`, updatedUser);
+      const response = await axios.put(`https://neublock-backend.onrender.com/users/${userId}`, updatedUser);
       // Perform any necessary actions after successful user update
       console.log('response', response)
       setLoading(false);

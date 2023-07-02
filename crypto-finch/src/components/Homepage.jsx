@@ -139,7 +139,7 @@ const Homepage = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/users/${userId}`, {
+      const response = await axios.get(`https://neublock-backend.onrender.com/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${bearerToken}`,
         },
