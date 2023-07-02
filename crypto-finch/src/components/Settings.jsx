@@ -86,7 +86,6 @@ const Settings = ({userId}) => {
     try {
       const response = await axios.put(`https://neublock-backend.onrender.com/users/${userId}`, updatedUser);
       // Perform any necessary actions after successful user update
-      console.log('response', response)
       setLoading(false);
       notification.success({
         message: 'Success!',
@@ -122,59 +121,18 @@ const Settings = ({userId}) => {
               >
               <Row>
                 <Col span={12}>
-<Upload name="logo" listType="picture">
-                  <Button style={{width: '100%',fontSize: '10px', backgroundColor: 'rgba(255,255,255,0.3)', color: '#fff'}} icon={<UploadOutlined />}>Select a new photo</Button>
-                </Upload>
+                  <Upload name="logo" listType="picture">
+                    <Button style={{width: '100%',fontSize: '10px', backgroundColor: 'rgba(255,255,255,0.3)', color: '#fff'}} icon={<UploadOutlined />}>Select a new photo</Button>
+                  </Upload>
                 </Col>
                 <Col span={12}>
-                <Button type="primary" htmlType="submit" className="heading-explore-button" style={{width: '100%', fontSize: '10px', backgroundColor: 'rgba(255,255,255,0.3)', color: '#fff'}}>
-                  Upload
-                </Button>
+                  <Button type="primary" htmlType="submit" className="heading-explore-button" style={{width: '100%', fontSize: '10px', backgroundColor: 'rgba(255,255,255,0.3)', color: '#fff'}}>
+                    Upload
+                  </Button>
                 </Col>
-                
-
               </Row>
             </Form.Item>
           </Form>
-          {/* <Form.Item
-            name="file"
-            onChange={(e) => setFile(e.target.files[0])}
-            >
-            <Upload name="logo" listType="picture">
-            <Button style={{fontSize: '10px', marginBottom: '20px', backgroundColor: 'rgba(255,255,255,0.3)', color: '#fff'}} icon={<UploadOutlined />}>Click here to change profile picture</Button>
-            </Upload>
-          </Form.Item> */}
-          {/* <Form.Item name="file">
-            <Upload
-              name="logo"
-              listType="picture"
-              beforeUpload={() => false}
-              onChange={(info) => {
-                if (info.fileList.length === "1") {
-                  setUpdatedUser((prevUser) => ({
-                    ...prevUser,
-                    picturePath: info.file.response.secure_url,
-                    file: info.file.originFileObj,
-                  }));
-                }
-                console.log("info.fileList.length",info.fileList.length)
-                console.log("info",info)
-              }}
-            >
-              <Button
-                style={{
-                  fontSize: "10px",
-                  marginBottom: "20px",
-                  backgroundColor: "rgba(255,255,255,0.3)",
-                  color: "#fff",
-                }}
-                icon={<UploadOutlined />}
-              >
-                Select a new photo
-              </Button>
-            </Upload>
-          </Form.Item> */}
-
 
           <Form
             name="basic"
