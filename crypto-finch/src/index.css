@@ -1545,7 +1545,8 @@ width: 70%;
 
 /* ---------------------- LOGIN PAGE ------------------------ */
 .login-container{
-  background: url('./images/landing/footerBg.png') center right !important;
+  background: rgb(2,0,36) !important;
+  background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(70,16,140,1) 100%) !important;
   padding: 30px 80px;
   overflow: hidden;
   position: relative;
@@ -1639,7 +1640,8 @@ width: 70%;
 }
 @media (min-width: 200px) and (max-width: 400px){
   .login-container{
-    background: url('./images/landing/footerBg.png') center right !important;
+    background: rgb(2,0,36) !important;
+    background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(70,16,140,1) 100%) !important;
     padding: 20px 10px;
     overflow: hidden;
     position: relative;
