@@ -693,7 +693,14 @@ const columns = [
             {/* <Button onClick={showModal} className="assets-add-button" style={{fontSize: '10px', borderRadius: '6px', width: '40px', border: '0px', color: '#fff',}} icon={<PlusOutlined style={{fontSize: '18px',}}/> }></Button> */}
             <PlusOutlined className='header-toggle-button' onClick={showModal} style={{fontSize: 16}}/>
           </div>
-          
+          { assets && assets.length > 0 ?
+            ""
+            :
+            <Col span={24} style={{textAlign: 'center', padding: 20, margin: 12, display: 'flex',flexDirection: 'column', alignItems: "center", justifyContent: 'center',height: 180, border: '2px dashed #fff', borderRadius: 10}}>
+            <p style={{ fontSize: 12}}>Start tracking your assets by clicking the plus button</p>
+            <FundViewOutlined  style={{ fontSize: 38}}/>
+            </Col>
+          }
           {loading ? 
           <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '200px', }}><Spin tip="Loading" /></Row> 
           : 
@@ -707,16 +714,8 @@ const columns = [
                 price={assets.price} 
               />
             ))}
-            
           </Row>}
-          { !assets ?
-            <Col span={24} style={{textAlign: 'center', padding: 20, margin: 12, display: 'flex',flexDirection: 'column', alignItems: "center", justifyContent: 'center',height: 180, border: '2px dashed #fff', borderRadius: 10}}>
-            <p style={{ fontSize: 12}}>Start tracking your assets by clicking the plus button</p>
-            <FundViewOutlined  style={{ fontSize: 38}}/>
-            </Col>
-          :
-          ''
-          }
+          
         </Sider>
 
         <Drawer style={{zIndex: '10000'}} title="Settings" placement="right" onClose={onCloseSettings} open={openSettings} className="drawer-settings">
