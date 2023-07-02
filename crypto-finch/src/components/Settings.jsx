@@ -1,88 +1,236 @@
-import React from 'react'
-import { Checkbox, Form, Input, Image, Typography, Button } from 'antd';
+import React, { useState, useEffect } from 'react'
+import axios from "axios";
+import { Checkbox, Form, Input, Image, Typography, Button, Upload, Row, Col, notification  } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 import { useSelector } from "react-redux";
+import { Spin, Alert, Progress } from 'antd';
+
 
 
 const Settings = ({userId}) => {
-  // const user = useSelector((state) => state.user);
-  const user = JSON.parse(localStorage.getItem('user'));
+  const userRedux = useSelector((state) => state.user);
+  // const user = JSON.parse(localStorage.getItem('user'));
+  const token = localStorage.getItem('token');
+  const [user, setUser] = useState({});
+  const [file, setFile] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [previewImage, setPreviewImage] = useState("")
+  const [updatedUser, setUpdatedUser] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    picturePath: '',
+  });
 
+
+  const handleUpload = async () => {
+    try {
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "neublock");
+  
+        const uploadResponse = await axios.post(
+          "https://api.cloudinary.com/v1_1/dwxdztigp/image/upload",
+          formData
+        );
+  
+        const picturePath = uploadResponse.data.secure_url;
+  
+        setUpdatedUser((prevUser) => ({
+          ...prevUser,
+          picturePath: picturePath,
+          file: null, // Reset the file state after successful upload
+        }));
+        setPreviewImage(picturePath)
+      }
+      // Perform any necessary actions after successful user update
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+
+  useEffect(() => {
+    // Fetch the user data from the backend when the component mounts
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3001/users/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUser(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchUser();
+  }, [userId]);
+  
+  useEffect(() => {
+    setUpdatedUser(user);
+  }, [user]);
+
+  const handleInputChange = (e) => {
+    setUpdatedUser({
+      ...updatedUser,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleFormSubmit = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.put(`http://localhost:3001/users/${userId}`, updatedUser);
+      // Perform any necessary actions after successful user update
+      console.log('response', response)
+      setLoading(false);
+      notification.success({
+        message: 'Success!',
+        description: 'Changes successfully saved!',
+        placement: 'top',
+    });
+    } catch (error) {
+      console.log(error);
+      notification.error({
+        message: '',
+        placement: 'top',
+        description: 'Oops! There was an error. Fill the necessary fields and leave no empty response.',
+      });
+      setLoading(false);
+    }
+  };
 
   return (
     <>
-        <Typography.Title level={4} style={{fontSize: '16px'}}>Account Settings</Typography.Title>
-          <p style={{fontSize: '11px', color: 'rgba(255,255,255,0.3'}}>Profile picture, personal information and phone number</p>
+      <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+        
+          <Typography.Title level={4} style={{fontSize: '16px'}}>Account Settings</Typography.Title>
+          <p style={{fontSize: '11px', color: 'rgba(255,255,255,0.3'}}>Profile picture, personal information and notifications</p>
           <Typography.Title level={4} style={{fontSize: '13px'}}>Profile picture</Typography.Title>
-          <Image src={user.picturePath} style={{ width: 80, }} />
-          <p style={{fontSize: '11px', color: 'rgba(255,255,255,0.3'}}>Click <span style={{color: 'cyan'}}>HERE</span> to change profile picture</p>
-          <Typography.Title level={4} style={{fontSize: '13px'}}>Personal information and phone number</Typography.Title>
-          <p style={{fontSize: '11px', color: 'rgba(255,255,255,0.3'}}>Update your profile name. You can also edit your phone number. Click on 'save changes' when you are done.</p>
+          <Image 
+            src={previewImage ? previewImage : updatedUser.picturePath} 
+            style={{ width: 80, }} 
+          />
+          <Form onFinish={(e) => handleUpload(e)}>
+            <Form.Item
+              name="file"
+              onChange={(e) => setFile(e.target.files[0])}
+              >
+              <Row>
+                <Col span={12}>
+<Upload name="logo" listType="picture">
+                  <Button style={{width: '100%',fontSize: '10px', backgroundColor: 'rgba(255,255,255,0.3)', color: '#fff'}} icon={<UploadOutlined />}>Select a new photo</Button>
+                </Upload>
+                </Col>
+                <Col span={12}>
+                <Button type="primary" htmlType="submit" className="heading-explore-button" style={{width: '100%', fontSize: '10px', backgroundColor: 'rgba(255,255,255,0.3)', color: '#fff'}}>
+                  Upload
+                </Button>
+                </Col>
+                
 
-          <div style={{display: 'flex', gap: '20px'}}>
-          <Form
-            name="basic"
-            labelCol={{span: 16,}}
-            wrapperCol={{span: 24,}}
-            initialValues={{remember: true,}}
-            autoComplete="off"
-            layout="vertical"
-            size="small"
-          >
-            <Form.Item label="Last name" name="lastName" value={user.lastName}>
-              <Input />
+              </Row>
             </Form.Item>
           </Form>
-          <Form
-            name="basic"
-            labelCol={{span: 16,}}
-            wrapperCol={{span: 24,}}
-            initialValues={{remember: true,}}
-            autoComplete="off"
-            layout="vertical"
-            size="small"
-          >
-            <Form.Item label="First name" name="firstName" value={user.firstName}>
-              <Input />
-            </Form.Item>
-          </Form>
-          </div>
-          <Form
-            name="basic"
-            labelCol={{span: 8,}}
-            wrapperCol={{span: 24,}}
-            initialValues={{remember: true,}}
-            autoComplete="off"
-            layout="vertical"
-            size="small"
-          >
-            <Form.Item label="Email address" name="email" value={user.email}>
-              <Input/>
-            </Form.Item>
-            {/* <Form.Item label="Phone number" name="number">
-              <Input/>
-            </Form.Item> */}
-            
-            <Typography.Title level={4} style={{fontSize: '16px'}}>Notifications</Typography.Title>
-            <p style={{fontSize: '11px', color: 'rgba(255,255,255,0.3'}}>Customize type of notifications you want to achieve</p>
-            <Form.Item name="remember" valuePropName="checked" wrapperCol={{span: 24,}}>
-              <div style={{display: 'flex', flexDirection: 'row'}}>
-                <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start'}}>
-                  <Checkbox>Payment Success</Checkbox>
-                  <Checkbox>Password change</Checkbox>
-                </div>
-                <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start'}}>
-                  <Checkbox>Weekly report</Checkbox>
-                  <Checkbox>Transfer success</Checkbox>
-                </div>
-              </div>
-            </Form.Item>
-
-            <Form.Item wrapperCol={{span: 24,}}>
-              <Button type="primary" htmlType="submit" className="heading-explore-button" style={{width: '100%',height: '30px', fontSize: '16px', color: '#fff',borderRadius: '6px', border: '0px', marginTop: '40px'}}>
-                Save changes
+          {/* <Form.Item
+            name="file"
+            onChange={(e) => setFile(e.target.files[0])}
+            >
+            <Upload name="logo" listType="picture">
+            <Button style={{fontSize: '10px', marginBottom: '20px', backgroundColor: 'rgba(255,255,255,0.3)', color: '#fff'}} icon={<UploadOutlined />}>Click here to change profile picture</Button>
+            </Upload>
+          </Form.Item> */}
+          {/* <Form.Item name="file">
+            <Upload
+              name="logo"
+              listType="picture"
+              beforeUpload={() => false}
+              onChange={(info) => {
+                if (info.fileList.length === "1") {
+                  setUpdatedUser((prevUser) => ({
+                    ...prevUser,
+                    picturePath: info.file.response.secure_url,
+                    file: info.file.originFileObj,
+                  }));
+                }
+                console.log("info.fileList.length",info.fileList.length)
+                console.log("info",info)
+              }}
+            >
+              <Button
+                style={{
+                  fontSize: "10px",
+                  marginBottom: "20px",
+                  backgroundColor: "rgba(255,255,255,0.3)",
+                  color: "#fff",
+                }}
+                icon={<UploadOutlined />}
+              >
+                Select a new photo
               </Button>
-            </Form.Item>
+            </Upload>
+          </Form.Item> */}
+
+
+          <Form
+            name="basic"
+            onFinish={(e) => handleFormSubmit(e)}
+            labelCol={{span: 16,}}
+            wrapperCol={{span: 24,}}
+            initialValues={{remember: true,}}
+            autoComplete="off"
+            layout="vertical"
+            size="small"
+            >
+              <Typography.Title level={4} style={{fontSize: '13px', marginTop: '40px'}}>Personal information</Typography.Title>
+              <p style={{fontSize: '11px', color: 'rgba(255,255,255,0.3'}}>Update your profile name. You can also edit your email address. Click on 'save changes' when you are done.</p>
+
+              <div style={{display: 'flex', gap: '20px'}}>
+                <Form.Item label="Last name" name="lastName">
+                  <Input name="lastName" onChange={handleInputChange} value={updatedUser.lastName} placeholder={updatedUser.lastName}/>
+                </Form.Item>
+                <Form.Item label="First name" name="firstName">
+                  <Input name="firstName" onChange={handleInputChange} value={updatedUser.firstName} placeholder={updatedUser.firstName} />
+                </Form.Item>
+              </div>
+              <Form.Item label="Email address" name="email">
+                <Input name="email" onChange={handleInputChange} value={updatedUser.email} placeholder={updatedUser.email}/>
+              </Form.Item>
+
+              <Form.Item label="Password" name="password">
+                <Input name="password" />
+              </Form.Item>
+            
+            
+              <Typography.Title level={4} style={{fontSize: '16px'}}>Notifications</Typography.Title>
+              <p style={{fontSize: '11px', color: 'rgba(255,255,255,0.3'}}>Customize type of notifications you want to achieve</p>
+              <Form.Item name="remember" valuePropName="checked" wrapperCol={{span: 24,}}>
+                <div style={{display: 'flex', flexDirection: 'row'}}>
+                  <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start'}}>
+                    <Checkbox>Payment Success</Checkbox>
+                    <Checkbox>Password change</Checkbox>
+                  </div>
+                  <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start'}}>
+                    <Checkbox>Weekly report</Checkbox>
+                    <Checkbox>Transfer success</Checkbox>
+                  </div>
+                </div>
+              </Form.Item>
+
+            <div>
+              <Form.Item wrapperCol={{span: 24,}}>
+                <Button type="primary" htmlType="submit" className="heading-explore-button" style={{width: '100%',height: '40px', fontSize: '16px', color: '#fff',borderRadius: '6px', border: '0px', marginTop: '40px',}}>
+                {loading ? <Spin /> : 'Save changes'}
+                </Button>
+              </Form.Item>
+            </div>
           </Form>
+          
+      </div>
     </>
   )
 }

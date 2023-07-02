@@ -7,6 +7,7 @@ import {
   getLikedCoins,
   addToLikedCoins,
   removeFromLikedCoins,
+  editUser,
 } from "../controllers/users.js";
 import { verifyToken } from "../middleware/auth.js";
 
@@ -19,6 +20,7 @@ router.get("/:id/friends", verifyToken, getUserFriends);
 
 /* UPDATE */
 router.patch("/:id/:friendId", verifyToken, addRemoveFriend);
+router.put("/:id", editUser);
 
 router.post("/add", addToLikedCoins);
 router.get("/liked/:email", getLikedCoins);

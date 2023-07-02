@@ -112,17 +112,16 @@ const Homepage = () => {
 
   const auth = localStorage.getItem('token');
   const isLoggedIn = localStorage.getItem('isLoggedIn');
-console.log("isLoggedIn", isLoggedIn)
-  // console.log('auth', auth);
 
   if (!auth || auth === 'undefined' || isLoggedIn === 'false') {
     history.push("/login");
   }
 
+  const bearerToken = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('user'));
-  const userId = user._id;
-  const email = user.email;
+
   //STATES FOR ADDING ASSETS
+  const [responseUser, setResponseUser] = useState({})
   const [assets, setAssets] = useState([]);
   const [amount, setAmount] = useState('');  
   const [price, setPrice] = useState('')
@@ -135,6 +134,29 @@ console.log("isLoggedIn", isLoggedIn)
   const [watchlist, setWatchlist] = useState([]);
   const [likedCoins, setLikedCoins] = useState([]);
   const [gainers, setGainers] = useState([])
+  const userId = user._id;
+  const email = user.email;
+
+  const fetchUser = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${bearerToken}`,
+        },
+      });
+      setResponseUser(response.data);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
+  useEffect(() => {
+    // Fetch the user data from the backend when the component mounts
+    fetchUser();
+  }, [userId]);
 
 
   //OVERVIEW TOP 3 CRYPTOS
@@ -343,6 +365,7 @@ console.log("isLoggedIn", isLoggedIn)
   };
   const onCloseSettings = () => {
     setOpenSettings(false);
+    fetchUser();
   };
   const onCloseCredits = () => {
     setOpenCredits(false);
@@ -354,7 +377,7 @@ console.log("isLoggedIn", isLoggedIn)
     setOpenNotifications(false);
   };
 
-  const fullName = `${user.firstName} ${user.lastName}`;
+  const fullName = `${responseUser?.firstName} ${responseUser?.lastName}`;
 
 
 const columns = [
@@ -422,7 +445,7 @@ const columns = [
           <Header className="header-container">
             <Row style={{ display: 'flex', justifyContent: 'space-between'}}>
                 <Col xl={4} lg={5} sm={5} xs={6} style={{height: '45px', display: 'grid', placeContent: 'center', padding: '0px'}}>
-                  <p style={{color: '#fff', fontSize: '19px', lineHeight: '0.1'}}>Hi, {user.firstName}!</p>
+                  <p style={{color: '#fff', fontSize: '19px', lineHeight: '0.1'}}>Hi, {responseUser.firstName}!</p>
                 </Col>
                 <Col xl={13} lg={16} sm={6} xs={10}>
                   
@@ -626,8 +649,8 @@ const columns = [
           <Row className="sidebar-profile">
             <Col span={24} className="sidebar-user-right" style={{ position: 'relative'}}>
               <Image src={avatar_bg} style={{zIndex: '10', width: 246}}/>
-              <Image src={user.picturePath} style={{ zIndex: '100', position: 'absolute', width: 125, height: 125, left: '-186px', top: '-64px' , borderRadius:'50%'}} />
-              <Meta className="sidebar-profile-name" title={fullName} description={user.email} style={{ textAlign: 'center', color: '#fff', position: 'absolute', bottom: '-1px'}}/>
+              <Image src={responseUser?.picturePath} style={{ zIndex: '100', position: 'absolute', width: 125, height: 125, left: '-186px', top: '-64px' , borderRadius:'50%'}} />
+              <Meta className="sidebar-profile-name" title={fullName} description={responseUser?.email} style={{ textAlign: 'center', color: '#fff', position: 'absolute', bottom: '-1px'}}/>
             </Col>
           </Row>               
           
